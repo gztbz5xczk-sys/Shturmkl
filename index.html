@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+   <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -107,36 +107,36 @@
         .logo-lfu, .logo-hedgehog {
             width: 90px;
             height: 90px;
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
-            border-radius: var(--radius-medium);
+            background: transparent;
+            backdrop-filter: none;
+            border-radius: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px solid rgba(255,255,255,0.3);
+            border: none;
             transition: all 0.3s ease;
             cursor: pointer;
             position: relative;
         }
 
         .logo-lfu:hover, .logo-hedgehog:hover {
-            background: rgba(255,255,255,0.35);
-            transform: scale(1.05);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            background: transparent;
+            transform: scale(1.1);
+            box-shadow: none;
         }
 
         .logo-lfu::after {
             content: 'ЛФУ';
             color: white;
             font-family: var(--font-heading);
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 700;
             letter-spacing: 2px;
         }
 
         .logo-hedgehog::after {
             content: '🦔';
-            font-size: 40px;
+            font-size: 50px;
             filter: brightness(0) invert(1);
             opacity: 0.9;
         }
@@ -161,7 +161,7 @@
             color: rgba(255,255,255,0.85);
             letter-spacing: 2px;
             text-transform: uppercase;
-            margin-bottom: 8px;
+            margin-bottom: 2px;
             line-height: 1.4;
         }
 
@@ -171,9 +171,10 @@
             font-weight: 700;
             color: white;
             line-height: 1.1;
-            margin: 10px 0;
+            margin: 4px 0;
             text-shadow: 0 4px 20px rgba(0,0,0,0.2);
             letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         .hero-sub-title {
@@ -182,7 +183,7 @@
             font-weight: 300;
             color: rgba(255,255,255,0.9);
             letter-spacing: 0.5px;
-            margin-top: 8px;
+            margin-top: 2px;
             line-height: 1.5;
         }
 
@@ -192,12 +193,13 @@
             z-index: 101;
         }
 
+        /* ШТУРВАЛ: SVG, без оконтовки, 8 спиц, утолщённое кольцо */
         .helm-button {
             width: 100px;
             height: 100px;
             background: rgba(255,255,255,0.15);
             backdrop-filter: blur(10px);
-            border: 3px solid rgba(255,255,255,0.4);
+            border: none;
             border-radius: 50%;
             cursor: pointer;
             position: relative;
@@ -205,6 +207,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 18px;
         }
 
         .helm-button:hover {
@@ -213,24 +216,10 @@
             box-shadow: 0 0 30px rgba(255,255,255,0.3);
         }
 
-        .helm-inner {
-            width: 30px;
-            height: 30px;
-            background: rgba(255,255,255,0.6);
-            border-radius: 50%;
-            position: relative;
+        .helm-button svg {
+            width: 100%;
+            height: 100%;
         }
-
-        .helm-spoke {
-            position: absolute;
-            background: rgba(255,255,255,0.7);
-            border-radius: 2px;
-        }
-
-        .helm-spoke:nth-child(1) { width: 3px; height: 35px; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(0deg); }
-        .helm-spoke:nth-child(2) { width: 3px; height: 35px; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(45deg); }
-        .helm-spoke:nth-child(3) { width: 3px; height: 35px; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(90deg); }
-        .helm-spoke:nth-child(4) { width: 3px; height: 35px; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(135deg); }
 
         .nav-overlay {
             position: fixed;
@@ -526,6 +515,65 @@
             font-weight: 600;
         }
 
+        /* ============ КНОПКИ СОЦСЕТЕЙ ============ */
+        .social-buttons {
+            margin-top: 35px;
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            padding: 14px 24px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .social-btn.telegram {
+            background: #2AABEE;
+            box-shadow: 0 4px 12px rgba(42,171,238,0.3);
+        }
+
+        .social-btn.telegram:hover {
+            box-shadow: 0 8px 20px rgba(42,171,238,0.45);
+        }
+
+        .social-btn.vkontakte {
+            background: #0077FF;
+            box-shadow: 0 4px 12px rgba(0,119,255,0.3);
+        }
+
+        .social-btn.vkontakte:hover {
+            box-shadow: 0 8px 20px rgba(0,119,255,0.45);
+        }
+
+        .social-btn.tiktok {
+            background: #000000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .social-btn.tiktok:hover {
+            box-shadow: 0 8px 20px rgba(0,0,0,0.45);
+        }
+
+        .social-btn-icon {
+            font-size: 20px;
+        }
+
         /* ============ ЧАСТЬ 5: А ЧТО СЕЙЧАС? ============ */
         .three-columns {
             display: grid;
@@ -712,6 +760,15 @@
             .section-connector {
                 margin: 0 20px;
             }
+            
+            .social-buttons {
+                gap: 12px;
+            }
+            
+            .social-btn {
+                padding: 12px 18px;
+                font-size: 14px;
+            }
         }
     </style>
 </head>
@@ -737,14 +794,30 @@
                 <p class="hero-sub-title">— профильный класс по подготовке к Всероссийской<br>олимпиаде школьников по русскому языку.</p>
             </div>
 
+            <!-- ШТУРВАЛ -->
             <div class="nav-helm">
                 <button class="helm-button" onclick="openNav()" title="Навигация">
-                    <div class="helm-inner">
-                        <div class="helm-spoke"></div>
-                        <div class="helm-spoke"></div>
-                        <div class="helm-spoke"></div>
-                        <div class="helm-spoke"></div>
-                    </div>
+                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="42" stroke="white" stroke-width="5" fill="none" opacity="0.9"/>
+                        <circle cx="50" cy="8" r="6" fill="white" opacity="0.9"/>
+                        <circle cx="79.7" cy="20.3" r="6" fill="white" opacity="0.9"/>
+                        <circle cx="92" cy="50" r="6" fill="white" opacity="0.9"/>
+                        <circle cx="79.7" cy="79.7" r="6" fill="white" opacity="0.9"/>
+                        <circle cx="50" cy="92" r="6" fill="white" opacity="0.9"/>
+                        <circle cx="20.3" cy="79.7" r="6" fill="white" opacity="0.9"/>
+                        <circle cx="8" cy="50" r="6" fill="white" opacity="0.9"/>
+                        <circle cx="20.3" cy="20.3" r="6" fill="white" opacity="0.9"/>
+                        <circle cx="50" cy="50" r="14" stroke="white" stroke-width="2" fill="none" opacity="0.8"/>
+                        <line x1="50" y1="36" x2="50" y2="8" stroke="white" stroke-width="2.5" opacity="0.8"/>
+                        <line x1="50" y1="64" x2="50" y2="92" stroke="white" stroke-width="2.5" opacity="0.8"/>
+                        <line x1="36" y1="50" x2="8" y2="50" stroke="white" stroke-width="2.5" opacity="0.8"/>
+                        <line x1="64" y1="50" x2="92" y2="50" stroke="white" stroke-width="2.5" opacity="0.8"/>
+                        <line x1="60" y1="40" x2="79.7" y2="20.3" stroke="white" stroke-width="2.5" opacity="0.8"/>
+                        <line x1="60" y1="60" x2="79.7" y2="79.7" stroke="white" stroke-width="2.5" opacity="0.8"/>
+                        <line x1="40" y1="60" x2="20.3" y2="79.7" stroke="white" stroke-width="2.5" opacity="0.8"/>
+                        <line x1="40" y1="40" x2="20.3" y2="20.3" stroke="white" stroke-width="2.5" opacity="0.8"/>
+                        <circle cx="50" cy="50" r="5" fill="white" opacity="0.9"/>
+                    </svg>
                 </button>
             </div>
         </div>
@@ -825,7 +898,7 @@
                         <p style="margin-top: 15px;">Каждый год мы растем и развиваемся, внедряем новые методики и расширяем горизонты возможностей для наших учеников.</p>
                     </div>
 
-                    <!-- Карусель (автоматическая) -->
+                    <!-- Карусель (ручная) -->
                     <div class="carousel-section">
                         <h3 class="carousel-title">Наши выпускники</h3>
                         <div class="carousel-container" id="carousel">
@@ -867,6 +940,19 @@
                             <h3 class="sub-block-title">преимущества формата</h3>
                             <div class="section-text"><p>Гибкий график, сочетание онлайн и офлайн занятий, доступ к эксклюзивным материалам и постоянная обратная связь от преподавателей — члена ЦПМК.</p></div>
                         </div>
+                    </div>
+
+                    <!-- Кнопки соцсетей -->
+                    <div class="social-buttons">
+                        <a href="https://t.me/ваша_ссылка" target="_blank" class="social-btn telegram">
+                            <span class="social-btn-icon">📱</span> Telegram
+                        </a>
+                        <a href="https://vk.com/ваша_ссылка" target="_blank" class="social-btn vkontakte">
+                            <span class="social-btn-icon">💙</span> ВКонтакте
+                        </a>
+                        <a href="https://tiktok.com/@ваша_ссылка" target="_blank" class="social-btn tiktok">
+                            <span class="social-btn-icon">🎵</span> TikTok
+                        </a>
                     </div>
                 </div>
             </div>
@@ -956,16 +1042,13 @@
             });
         });
 
-        // ============ КАРУСЕЛЬ (автоматическая + перетаскивание) ============
+        // ============ КАРУСЕЛЬ (ручное перетаскивание) ============
         var track = document.getElementById('carouselTrack');
         var cards = track.querySelectorAll('.carousel-card');
         var cardWidth = 220;
         var currentPosition = 0;
         var isDragging = false;
         var startX, startPosition;
-        var autoScrollInterval;
-        var autoScrollSpeed = 0.8;
-        var autoScrollDelay = 16;
 
         function setupInfiniteCarousel() {
             var originalHTML = '';
@@ -975,36 +1058,8 @@
 
             track.innerHTML = originalHTML + originalHTML + originalHTML;
             currentPosition = cards.length * cardWidth;
+            track.style.transition = 'none';
             track.style.transform = 'translateX(-' + currentPosition + 'px)';
-        }
-
-        function startAutoScroll() {
-            stopAutoScroll();
-            autoScrollInterval = setInterval(function() {
-                if (!isDragging) {
-                    currentPosition += autoScrollSpeed;
-
-                    if (currentPosition >= cards.length * cardWidth * 2) {
-                        currentPosition = cards.length * cardWidth;
-                        track.style.transition = 'none';
-                        track.style.transform = 'translateX(-' + currentPosition + 'px)';
-                        requestAnimationFrame(function() {
-                            requestAnimationFrame(function() {
-                                track.style.transition = 'transform 0.5s ease';
-                            });
-                        });
-                    }
-
-                    track.style.transform = 'translateX(-' + currentPosition + 'px)';
-                }
-            }, autoScrollDelay);
-        }
-
-        function stopAutoScroll() {
-            if (autoScrollInterval) {
-                clearInterval(autoScrollInterval);
-                autoScrollInterval = null;
-            }
         }
 
         // Мышь
@@ -1014,7 +1069,6 @@
             startPosition = currentPosition;
             track.style.transition = 'none';
             track.style.cursor = 'grabbing';
-            stopAutoScroll();
         });
 
         window.addEventListener('mouseup', function() {
@@ -1022,7 +1076,6 @@
                 isDragging = false;
                 track.style.cursor = 'grab';
                 track.style.transition = 'transform 0.5s ease';
-                startAutoScroll();
             }
         });
 
@@ -1046,14 +1099,12 @@
             startX = e.touches[0].pageX;
             startPosition = currentPosition;
             track.style.transition = 'none';
-            stopAutoScroll();
         });
 
         window.addEventListener('touchend', function() {
             if (isDragging) {
                 isDragging = false;
                 track.style.transition = 'transform 0.5s ease';
-                startAutoScroll();
             }
         });
 
@@ -1072,7 +1123,6 @@
 
         // Запуск
         setupInfiniteCarousel();
-        startAutoScroll();
 
         // ============ ОТПРАВКА ФОРМЫ ЧЕРЕЗ FORMSPREE ============
         var form = document.getElementById('applicationForm');
