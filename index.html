@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Штурманский класс — Лицей Финансового университета</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #3a6b8c;
+            --deep-blue: #2c5282;
+            --light-blue: #b8d4e8;
+            --pale-blue: #dce9f2;
+            --milk-white: #faf8f5;
+            --cream: #f5f0eb;
+            --text-dark: #2d3748;
+            --text-medium: #4a5568;
+            --accent-gold: #c9a96e;
+            --shadow-soft: 0 4px 20px rgba(44, 82, 130, 0.08);
+            --shadow-medium: 0 8px 30px rgba(44, 82, 130, 0.12);
+            --radius-large: 24px;
+            --radius-medium: 16px;
+            --radius-small: 10px;
+            --font-heading: 'Playfair Display', 'Georgia', 'Times New Roman', serif;
+            --font-body: 'Inter', 'Helvetica Neue', 'Arial', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--milk-white);
+            color: var(--text-dark);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ============ ЧАСТЬ 1: ШАПКА (HERO) ============ */
+        .hero {
+            background: linear-gradient(135deg, #2c5f8a 0%, #3a7db5 30%, #4a90c4 60%, #3a6b8c 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 60px 40px;
+            overflow: hidden;
+        }
+
+        /* Декоративные морские элементы на фоне */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -30%;
+            width: 80%;
+            height: 200%;
+            background: radial-gradient(ellipse at center, rgba(255,255,255,0.06) 0%, transparent 70%);
+            transform: rotate(-15deg);
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            right: -20%;
+            width: 60%;
+            height: 140%;
+            background: radial-gradient(ellipse at center, rgba(180,210,230,0.1) 0%, transparent 70%);
+            transform: rotate(10deg);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 60px;
+            max-width: 1200px;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Логотипы слева */
+        .hero-logos {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+            flex-shrink: 0;
+        }
+
+        .logo-lfu, .logo-hedgehog {
+            width: 90px;
+            height: 90px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius-medium);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .logo-lfu:hover, .logo-hedgehog:hover {
+            background: rgba(255,255,255,0.35);
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .logo-lfu::after {
+            content: 'ЛФУ';
+            color: white;
+            font-family: var(--font-heading);
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .logo-hedgehog::after {
+            content: '🦔';
+            font-size: 40px;
+            filter: brightness(0) invert(1);
+            opacity: 0.9;
+        }
+
+        .logo-label {
+            color: rgba(255,255,255,0.8);
+            font-size: 12px;
+            text-align: center;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Центральный блок с заголовками */
+        .hero-text-block {
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .hero-pre-title {
+            font-family: var(--font-body);
+            font-size: 16px;
+            font-weight: 400;
+            color: rgba(255,255,255,0.85);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .hero-main-title {
+            font-family: var(--font-heading);
+            font-size: 72px;
+            font-weight: 700;
+            color: white;
+            line-height: 1.1;
+            margin: 10px 0;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            letter-spacing: 1px;
+        }
+
+        .hero-sub-title {
+            font-family: var(--font-body);
+            font-size: 17px;
+            font-weight: 300;
+            color: rgba(255,255,255,0.9);
+            letter-spacing: 0.5px;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        /* Кнопка-штурвал справа */
+        .nav-helm {
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .helm-button {
+            width: 100px;
+            height: 100px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border: 3px solid rgba(255,255,255,0.4);
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.4s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .helm-button:hover {
+            background: rgba(255,255,255,0.3);
+            transform: rotate(30deg);
+            box-shadow: 0 0 30px rgba(255,255,255,0.3);
+        }
+
+        .helm-inner {
+            width: 30px;
+            height: 30px;
+            background: rgba(255,255,255,0.6);
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .helm-spoke {
+            position: absolute;
+            background: rgba(255,255,255,0.7);
+            border-radius: 2px;
+        }
+
+        .helm-spoke:nth-child(1) { width: 3px; height: 35px; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(0deg); }
+        .helm-spoke:nth-child(2) { width: 3px; height: 35px; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(45deg); }
+        .helm-spoke:nth-child(3) { width: 3px; height: 35px; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(90deg); }
+        .helm-spoke:nth-child(4) { width: 3px; height: 35px; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(135deg); }
+
+        /* Выпадающее меню */
+        .nav-dropdown {
+            position: absolute;
+            top: 110px;
+            right: 0;
+            background: white;
+            border-radius: var(--radius-medium);
+            box-shadow: var(--shadow-medium);
+            min-width: 220px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 100;
+            overflow: hidden;
+        }
+
+        .nav-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .nav-dropdown a {
+            display: block;
+            padding: 14px 22px;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-family: var(--font-body);
+            font-size: 15px;
+            border-bottom: 1px solid var(--pale-blue);
+            transition: all 0.2s ease;
+        }
+
+        .nav-dropdown a:hover {
+            background: var(--pale-blue);
+            color: var(--deep-blue);
+            padding-left: 28px;
+        }
+
+        .nav-dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        /* ============ ОБЩИЕ СТИЛИ ДЛЯ СЕКЦИЙ ============ */
+        .section {
+            padding: 80px 40px;
+            background: var(--milk-white);
+            position: relative;
+        }
+
+        .section-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .content-card {
+            background: var(--pale-blue);
+            border-radius: var(--radius-large);
+            padding: 50px 55px;
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .content-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 38px;
+            font-weight: 700;
+            color: var(--deep-blue);
+            margin-bottom: 25px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--accent-gold);
+            border-radius: 2px;
+        }
+
+        .section-text {
+            font-family: var(--font-body);
+            font-size: 16px;
+            color: var(--text-medium);
+            line-height: 1.8;
+        }
+
+        /* ============ ЧАСТЬ 2: ЧТО ТАКОЕ ЛФУ ============ */
+        .section-lfu .content-card {
+            background: var(--pale-blue);
+        }
+
+        /* ============ ЧАСТЬ 3: ПРЕПОДАВАТЕЛЬ ============ */
+        .teacher-layout {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        .teacher-photo {
+            flex-shrink: 0;
+            width: 280px;
+            height: 350px;
+            background: rgba(255,255,255,0.5);
+            border-radius: var(--radius-medium);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed rgba(44, 82, 130, 0.2);
+            color: var(--text-medium);
+            font-size: 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .teacher-photo:hover {
+            border-color: var(--deep-blue);
+            background: rgba(255,255,255,0.7);
+        }
+
+        .teacher-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .teacher-text {
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* ============ ЧАСТЬ 4: ИСТОРИЯ ГРУППЫ ============ */
+        .video-container {
+            float: right;
+            width: 280px;
+            height: 500px;
+            margin: 0 0 20px 30px;
+            background: rgba(255,255,255,0.5);
+            border-radius: var(--radius-medium);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed rgba(44, 82, 130, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            color: var(--text-medium);
+        }
+
+        .video-container:hover {
+            border-color: var(--deep-blue);
+        }
+
+        /* Карусель */
+        .carousel-section {
+            margin-top: 50px;
+            clear: both;
+        }
+
+        .carousel-title {
+            font-family: var(--font-heading);
+            font-size: 24px;
+            color: var(--deep-blue);
+            margin-bottom: 25px;
+        }
+
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+            padding: 10px 0;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 20px;
+            transition: transform 0.5s ease;
+            cursor: grab;
+        }
+
+        .carousel-track:active {
+            cursor: grabbing;
+        }
+
+        .carousel-card {
+            flex-shrink: 0;
+            width: 200px;
+            background: white;
+            border-radius: var(--radius-medium);
+            box-shadow: var(--shadow-soft);
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .carousel-photo {
+            width: 100%;
+            height: 200px;
+            background: var(--pale-blue);
+            border-radius: var(--radius-small);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: var(--deep-blue);
+            overflow: hidden;
+        }
+
+        .carousel-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .carousel-name {
+            font-family: var(--font-heading);
+            font-size: 16px;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .carousel-controls {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .carousel-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid var(--deep-blue);
+            background: white;
+            cursor: pointer;
+            font-size: 18px;
+            color: var(--deep-blue);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-btn:hover {
+            background: var(--deep-blue);
+            color: white;
+        }
+
+        /* ============ ЧАСТЬ 5: А ЧТО СЕЙЧАС? ============ */
+        .three-columns {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .sub-block {
+            background: white;
+            border-radius: var(--radius-medium);
+            padding: 30px;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s ease;
+        }
+
+        .sub-block:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .sub-block-title {
+            font-family: var(--font-heading);
+            font-size: 22px;
+            color: var(--deep-blue);
+            margin-bottom: 18px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .sub-block-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--accent-gold);
+            border-radius: 1px;
+        }
+
+        /* ============ ЧАСТЬ 6: ПОСТУПЛЕНИЕ ============ */
+        .form-card {
+            background: white;
+            border-radius: var(--radius-large);
+            padding: 45px;
+            box-shadow: var(--shadow-soft);
+            margin-top: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-label {
+            display: block;
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid var(--pale-blue);
+            border-radius: var(--radius-small);
+            font-family: var(--font-body);
+            font-size: 15px;
+            color: var(--text-dark);
+            background: var(--milk-white);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: var(--deep-blue);
+            box-shadow: 0 0 0 3px rgba(44, 82, 130, 0.1);
+        }
+
+        .form-submit {
+            background: var(--deep-blue);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: var(--radius-small);
+            font-family: var(--font-body);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .form-submit:hover {
+            background: #1a3f5c;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(44, 82, 130, 0.3);
+        }
+
+        /* ============ РАЗДЕЛИТЕЛИ МЕЖДУ СЕКЦИЯМИ ============ */
+        .section-divider {
+            height: 80px;
+            background: linear-gradient(to bottom, var(--milk-white) 0%, var(--pale-blue) 50%, var(--milk-white) 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .divider-icon {
+            font-size: 28px;
+            color: var(--deep-blue);
+            opacity: 0.4;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* ============ АДАПТИВНОСТЬ ============ */
+        @media (max-width: 968px) {
+            .hero-content {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .hero-logos {
+                flex-direction: row;
+                gap: 20px;
+            }
+            
+            .hero-main-title {
+                font-size: 48px;
+            }
+            
+            .teacher-layout {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .three-columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .content-card {
+                padding: 30px 25px;
+            }
+            
+            .video-container {
+                float: none;
+                width: 100%;
+                height: 400px;
+                margin: 0 0 20px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============ ЧАСТЬ 1: ШАПКА ============ -->
+    <header class="hero" id="hero">
+        <div class="hero-content">
+            <!-- Логотипы слева -->
+            <div class="hero-logos">
+                <div class="logo-lfu" title="Лицей Финансового университета">
+                    <!-- Заменить: <img src="путь_к_логотипу_лфу.png" alt="ЛФУ" style="width:100%;height:100%;object-fit:contain;"> -->
+                </div>
+                <span class="logo-label">Лицей ФУ</span>
+                <div class="logo-hedgehog" title="Штурманский класс">
+                    <!-- Заменить: <img src="путь_к_логотипу_ежа.png" alt="Ёж" style="width:100%;height:100%;object-fit:contain;"> -->
+                </div>
+                <span class="logo-label">Штурман</span>
+            </div>
+
+            <!-- Центральный текстовый блок -->
+            <div class="hero-text-block">
+                <p class="hero-pre-title">Лицей Финансового университета<br>при Правительстве Российской Федерации запускает</p>
+                <h1 class="hero-main-title">штурманский<br>класс</h1>
+                <p class="hero-sub-title">— профильный класс по подготовке к Всероссийской<br>олимпиаде школьников по русскому языку.</p>
+            </div>
+
+            <!-- Кнопка-штурвал с навигацией -->
+            <div class="nav-helm">
+                <button class="helm-button" onclick="toggleNav()" title="Навигация">
+                    <div class="helm-inner">
+                        <div class="helm-spoke"></div>
+                        <div class="helm-spoke"></div>
+                        <div class="helm-spoke"></div>
+                        <div class="helm-spoke"></div>
+                    </div>
+                </button>
+                <nav class="nav-dropdown" id="navDropdown">
+                    <a href="#section-lfu">Что такое ЛФУ</a>
+                    <a href="#section-teacher">Преподаватель</a>
+                    <a href="#section-history">История группы</a>
+                    <a href="#section-now">А что сейчас?</a>
+                    <a href="#section-admission">Поступление</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Разделитель: якорь -->
+    <div class="section-divider">
+        <span class="divider-icon">⚓</span>
+    </div>
+
+    <!-- ============ ЧАСТЬ 2: ЧТО ТАКОЕ ЛФУ ============ -->
+    <section class="section section-lfu" id="section-lfu">
+        <div class="section-container">
+            <div class="content-card">
+                <h2 class="section-title">Что такое ЛФУ?</h2>
+                <div class="section-text">
+                    <!-- ЗАМЕНИТЕ ТЕКСТ НА СВОЙ -->
+                    <p>Лицей Финансового университета при Правительстве Российской Федерации — это уникальное образовательное учреждение, сочетающее лучшие традиции классического образования с инновационными методиками. Наши ученики получают не только глубокие академические знания, но и развивают критическое мышление, исследовательские навыки и лидерские качества.</p>
+                    <p style="margin-top: 15px;">Лицей создаёт среду, в которой каждый учащийся может раскрыть свой потенциал под руководством опытных наставников и преподавателей высшей квалификации.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Разделитель: компас -->
+    <div class="section-divider">
+        <span class="divider-icon">🧭</span>
+    </div>
+
+    <!-- ============ ЧАСТЬ 3: ПРЕПОДАВАТЕЛЬ ============ -->
+    <section class="section" id="section-teacher">
+        <div class="section-container">
+            <div class="content-card">
+                <h2 class="section-title">Преподаватель</h2>
+                <div class="teacher-layout">
+                    <!-- Фото преподавателя -->
+                    <div class="teacher-photo" title="Добавить фото">
+                        <!-- Заменить: <img src="путь_к_фото_преподавателя.jpg" alt="М.А. Шутеев"> -->
+                        <span>📷<br>Фото<br>преподавателя</span>
+                    </div>
+                    <div class="teacher-text">
+                        <div class="section-text">
+                            <!-- ЗАМЕНИТЕ ТЕКСТ НА СВОЙ -->
+                            <p><strong>Максим Андреевич Шутеев.</strong></p>
+                            <p style="margin-top: 10px;">Член Центральной предметно-методической комиссии (ЦПМК) Всероссийской олимпиады школьников по русскому языку.</p>
+                            <p style="margin-top: 8px;">Сферой ответственности ЦПМК среди прочего является разработка заданий, критериев и методик оценивания регионального и заключительного этапов ВсОШ.</p>
+                            <p style="margin-top: 8px;">Студент образовательной программы «Фундаментальная и компьютерная лингвистика» факультета гуманитарных наук НИУ ВШЭ.</p>
+                            <p style="margin-top: 8px;">Студент образовательной программы «Русский язык и литература» филологического факультета МГУ имени М. В. Ломоносова.</p>
+                            <p style="margin-top: 8px;">В прошлом — 7-кратный победитель и призёр ЗЭ ВсОШ по русскому языку и истории.</p>
+                            <p style="margin-top: 8px;">Будучи в 11 классе, подготовил авторские курсы по подготовке к ВсОШ по русскому языку, на которых занимались 10 ребят, ставших по итогам подготовки победителями и призёрами ЗЭ ВсОШ по русскому языку 2026 г.</p>
+                            <p style="margin-top: 8px;">По 9 классам в нашей копилке пятая часть от числа всех дипломов победителей и призёров ЗЭ в общем и почти половина от числа дипломов сборной Москвы, которую представляли все занимавшиеся на курсах ребята.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Разделитель: волна -->
+    <div class="section-divider">
+        <span class="divider-icon">🌊</span>
+    </div>
+
+    <!-- ============ ЧАСТЬ 4: ИСТОРИЯ ГРУППЫ ============ -->
+    <section class="section" id="section-history">
+        <div class="section-container">
+            <div class="content-card">
+                <h2 class="section-title">История группы</h2>
+                <!-- Видео -->
+                <div class="video-container" title="Добавить видео">
+                    <!-- Заменить: <video src="путь_к_видео.mp4" controls style="width:100%;height:100%;object-fit:cover;"></video> -->
+                    <span>📹<br>Видео<br>вертикального<br>формата</span>
+                </div>
+                <div class="section-text">
+                    <!-- ЗАМЕНИТЕ ТЕКСТ НА СВОЙ -->
+                    <p>История штурманского класса началась с идеи создать пространство, где талантливые ученики смогут углублённо готовиться к олимпиадам под руководством лучших наставников. За время существования проекта через наши программы прошли десятки увлечённых ребят, многие из которых достигли выдающихся результатов на всероссийском уровне.</p>
+                    <p style="margin-top: 15px;">Каждый год мы растем и развиваемся, внедряем новые методики и расширяем горизонты возможностей для наших учеников.</p>
+                </div>
+
+                <!-- Карусель -->
+                <div class="carousel-section">
+                    <h3 class="carousel-title">Наши выпускники</h3>
+                    <div class="carousel-container" id="carousel">
+                        <div class="carousel-track" id="carouselTrack">
+                            <!-- Карточки карусели (ЗАМЕНИТЕ ФОТО И ПОДПИСИ) -->
+                            <div class="carousel-card">
+                                <div class="carousel-photo">🦔</div>
+                                <p class="carousel-name">Имя Фамилия</p>
+                            </div>
+                            <div class="carousel-card">
+                                <div class="carousel-photo">🦔</div>
+                                <p class="carousel-name">Имя Фамилия</p>
+                            </div>
+                            <div class="carousel-card">
+                                <div class="carousel-photo">🦔</div>
+                                <p class="carousel-name">Имя Фамилия</p>
+                            </div>
+                            <div class="carousel-card">
+                                <div class="carousel-photo">🦔</div>
+                                <p class="carousel-name">Имя Фамилия</p>
+                            </div>
+                            <div class="carousel-card">
+                                <div class="carousel-photo">🦔</div>
+                                <p class="carousel-name">Имя Фамилия</p>
+                            </div>
+                            <div class="carousel-card">
+                                <div class="carousel-photo">🦔</div>
+                                <p class="carousel-name">Имя Фамилия</p>
+                            </div>
+                            <div class="carousel-card">
+                                <div class="carousel-photo">🦔</div>
+                                <p class="carousel-name">Имя Фамилия</p>
+                            </div>
+                            <div class="carousel-card">
+                                <div class="carousel-photo">🦔</div>
+                                <p class="carousel-name">Имя Фамилия</p>
+                            </div>
+                            <div class="carousel-card">
+                                <div class="carousel-photo">🦔</div>
+                                <p class="carousel-name">Имя Фамилия</p>
+                            </div>
+                            <div class="carousel-card">
+                                <div class="carousel-photo">🦔</div>
+                                <p class="carousel-name">Имя Фамилия</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-controls">
+                        <button class="carousel-btn" onclick="scrollCarousel(-1)">←</button>
+                        <button class="carousel-btn" onclick="scrollCarousel(1)">→</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Разделитель: якорь -->
+    <div class="section-divider">
+        <span class="divider-icon">⚓</span>
+    </div>
+
+    <!-- ============ ЧАСТЬ 5: А ЧТО СЕЙЧАС? ============ -->
+    <section class="section" id="section-now">
+        <div class="section-container">
+            <div class="content-card">
+                <h2 class="section-title">А что сейчас?</h2>
+                <div class="three-columns">
+                    <!-- Подблок 1 -->
+                    <div class="sub-block">
+                        <h3 class="sub-block-title">о проекте</h3>
+                        <div class="section-text">
+                            <!-- ЗАМЕНИТЕ ТЕКСТ -->
+                            <p>Штурманский класс — это современный образовательный проект, направленный на подготовку учащихся к Всероссийской олимпиаде школьников по русскому языку. Мы используем передовые методики и индивидуальный подход к каждому ученику.</p>
+                        </div>
+                    </div>
+                    <!-- Подблок 2 -->
+                    <div class="sub-block">
+                        <h3 class="sub-block-title">особенности обучения</h3>
+                        <div class="section-text">
+                            <!-- ЗАМЕНИТЕ ТЕКСТ -->
+                            <p>Занятия проводятся в малых группах, что позволяет уделять внимание каждому. Программа включает разбор олимпиадных заданий прошлых лет, развитие лингвистического мышления и творческих способностей.</p>
+                        </div>
+                    </div>
+                    <!-- Подблок 3 -->
+                    <div class="sub-block">
+                        <h3 class="sub-block-title">преимущества формата</h3>
+                        <div class="section-text">
+                            <!-- ЗАМЕНИТЕ ТЕКСТ -->
+                            <p>Гибкий график, сочетание онлайн и офлайн занятий, доступ к эксклюзивным материалам и постоянная обратная связь от преподавателей — члена ЦПМК.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Разделитель: компас -->
+    <div class="section-divider">
+        <span class="divider-icon">🧭</span>
+    </div>
+
+    <!-- ============ ЧАСТЬ 6: ПОСТУПЛЕНИЕ ============ -->
+    <section class="section" id="section-admission">
+        <div class="section-container">
+            <div class="content-card">
+                <h2 class="section-title">КУРС</h2>
+                <div class="section-text">
+                    <!-- ЗАМЕНИТЕ ТЕКСТ -->
+                    <p>Приглашаем учащихся 9–11 классов присоединиться к штурманскому классу. Обучение бесплатное, набор осуществляется на конкурсной основе. Занятия проходят в Лицее Финансового университета при Правительстве РФ.</p>
+                    <p style="margin-top: 15px;">Для участия в отборе заполните форму ниже, и мы свяжемся с вами для уточнения деталей.</p>
+                </div>
+
+                <!-- Форма обратной связи -->
+                <div class="form-card" style="margin-top: 35px;">
+                    <h3 style="font-family: var(--font-heading); color: var(--deep-blue); margin-bottom: 25px; font-size: 22px;">Заявка на поступление</h3>
+                    <!-- ЗАМЕНИТЕ ПОЛЯ ПРИ НЕОБХОДИМОСТИ -->
+                    <form id="applicationForm" onsubmit="handleSubmit(event)">
+                        <div class="form-group">
+                            <label class="form-label" for="fio">ФИО</label>
+                            <input type="text" id="fio" class="form-input" placeholder="Иванов Иван Иванович" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="email">Email</label>
+                            <input type="email" id="email" class="form-input" placeholder="example@mail.ru" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="phone">Телефон</label>
+                            <input type="tel" id="phone" class="form-input" placeholder="+7 (___) ___-__-__" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="grade">Класс поступления</label>
+                            <select id="grade" class="form-input" required>
+                                <option value="">Выберите класс</option>
+                                <option value="9">9 класс</option>
+                                <option value="10">10 класс</option>
+                                <option value="11">11 класс</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="form-submit">Отправить заявку</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer style="background: var(--deep-blue); color: rgba(255,255,255,0.8); text-align: center; padding: 30px; font-size: 14px;">
+        <p>© 2026 Лицей Финансового университета при Правительстве РФ. Штурманский класс.</p>
+    </footer>
+
+    <script>
+        // Навигация (штурвал)
+        function toggleNav() {
+            document.getElementById('navDropdown').classList.toggle('active');
+        }
+
+        // Закрытие меню при клике вне
+        document.addEventListener('click', function(e) {
+            const helm = document.querySelector('.nav-helm');
+            const dropdown = document.getElementById('navDropdown');
+            if (!helm.contains(e.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+
+        // Плавная прокрутка для ссылок меню
+        document.querySelectorAll('.nav-dropdown a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const target = document.querySelector(targetId);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    document.getElementById('navDropdown').classList.remove('active');
+                }
+            });
+        });
+
+        // Карусель
+        let carouselPosition = 0;
+        const track = document.getElementById('carouselTrack');
+        const cardWidth = 220; // ширина карточки + gap
+
+        function scrollCarousel(direction) {
+            const maxScroll = track.scrollWidth - track.parentElement.clientWidth;
+            carouselPosition += direction * cardWidth;
+            
+            if (carouselPosition < 0) carouselPosition = 0;
+            if (carouselPosition > maxScroll) carouselPosition = maxScroll;
+            
+            track.style.transform = `translateX(-${carouselPosition}px)`;
+        }
+
+        // Перетаскивание карусели мышью
+        let isDragging = false;
+        let startX, scrollStart;
+
+        track.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.pageX;
+            scrollStart = carouselPosition;
+            track.style.cursor = 'grabbing';
+        });
+
+        track.addEventListener('mouseleave', () => {
+            isDragging = false;
+            track.style.cursor = 'grab';
+        });
+
+        track.addEventListener('mouseup', () => {
+            isDragging = false;
+            track.style.cursor = 'grab';
+        });
+
+        track.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+            const dx = e.pageX - startX;
+            const newPosition = scrollStart - dx;
+            const maxScroll = track.scrollWidth - track.parentElement.clientWidth;
+            carouselPosition = Math.max(0, Math.min(newPosition, maxScroll));
+            track.style.transform = `translateX(-${carouselPosition}px)`;
+        });
+
+        // Обработка формы
+        function handleSubmit(event) {
+            event.preventDefault();
+            const formData = {
+                fio: document.getElementById('fio').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                grade: document.getElementById('grade').value
+            };
+            console.log('Заявка:', formData);
+            alert('Спасибо! Ваша заявка принята. Мы свяжемся с вами в ближайшее время.');
+            event.target.reset();
+        }
+    </script>
+
+</body>
+</html>
