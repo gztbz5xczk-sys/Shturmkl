@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -467,6 +467,8 @@
             position: relative;
             overflow: hidden;
             padding: 10px 0;
+            mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
         }
 
         .carousel-track {
@@ -474,6 +476,7 @@
             gap: 20px;
             transition: transform 0.5s ease;
             cursor: grab;
+            width: fit-content;
         }
 
         .carousel-track:active {
@@ -521,33 +524,6 @@
             font-size: 16px;
             color: var(--text-dark);
             font-weight: 600;
-        }
-
-        .carousel-controls {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            margin-top: 25px;
-        }
-
-        .carousel-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            border: 2px solid var(--deep-blue);
-            background: white;
-            cursor: pointer;
-            font-size: 18px;
-            color: var(--deep-blue);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .carousel-btn:hover {
-            background: var(--deep-blue);
-            color: white;
         }
 
         /* ============ ЧАСТЬ 5: А ЧТО СЕЙЧАС? ============ */
@@ -652,7 +628,6 @@
             box-shadow: 0 8px 20px rgba(44, 82, 130, 0.3);
         }
 
-        /* Статус отправки */
         .form-status {
             display: none;
             padding: 14px 20px;
@@ -850,6 +825,7 @@
                         <p style="margin-top: 15px;">Каждый год мы растем и развиваемся, внедряем новые методики и расширяем горизонты возможностей для наших учеников.</p>
                     </div>
 
+                    <!-- Карусель (автоматическая) -->
                     <div class="carousel-section">
                         <h3 class="carousel-title">Наши выпускники</h3>
                         <div class="carousel-container" id="carousel">
@@ -865,10 +841,6 @@
                                 <div class="carousel-card"><div class="carousel-photo">🦔</div><p class="carousel-name">Имя Фамилия</p></div>
                                 <div class="carousel-card"><div class="carousel-photo">🦔</div><p class="carousel-name">Имя Фамилия</p></div>
                             </div>
-                        </div>
-                        <div class="carousel-controls">
-                            <button class="carousel-btn" onclick="scrollCarousel(-1)">←</button>
-                            <button class="carousel-btn" onclick="scrollCarousel(1)">→</button>
                         </div>
                     </div>
                 </div>
@@ -912,25 +884,25 @@
                         <p style="margin-top: 15px;">Для участия в отборе заполните форму ниже, и мы свяжемся с вами для уточнения деталей.</p>
                     </div>
 
-                    <!-- Форма обратной связи -->
+                    <!-- Форма обратной связи (Formspree) -->
                     <div class="form-card">
                         <h3 style="font-family: var(--font-heading); color: var(--deep-blue); margin-bottom: 25px; font-size: 22px;">Заявка на поступление</h3>
-                        <form id="applicationForm" onsubmit="handleSubmit(event)">
+                        <form id="applicationForm" action="https://formspree.io/f/mykvpwan" method="POST">
                             <div class="form-group">
                                 <label class="form-label" for="fio">ФИО</label>
-                                <input type="text" id="fio" class="form-input" placeholder="Иванов Иван Иванович" required>
+                                <input type="text" id="fio" name="fio" class="form-input" placeholder="Иванов Иван Иванович" required>
                             </div>
                             <div class="form-group">
                                 <label class="form-label" for="email">Email</label>
-                                <input type="email" id="email" class="form-input" placeholder="example@mail.ru" required>
+                                <input type="email" id="email" name="email" class="form-input" placeholder="example@mail.ru" required>
                             </div>
                             <div class="form-group">
                                 <label class="form-label" for="phone">Телефон</label>
-                                <input type="tel" id="phone" class="form-input" placeholder="+7 (___) ___-__-__" required>
+                                <input type="tel" id="phone" name="phone" class="form-input" placeholder="+7 (___) ___-__-__" required>
                             </div>
                             <div class="form-group">
                                 <label class="form-label" for="grade">Класс поступления</label>
-                                <select id="grade" class="form-input" required>
+                                <select id="grade" name="grade" class="form-input" required>
                                     <option value="">Выберите класс</option>
                                     <option value="9">9 класс</option>
                                     <option value="10">10 класс</option>
@@ -953,10 +925,6 @@
     </footer>
 
     <script>
-        // ============ НАСТРОЙКИ TELEGRAM ============
-        var BOT_TOKEN = '8980241148:AAFVx18bJWBOWaENlTCxCqvuOUcUsmCK5QA';
-        var CHAT_ID = '1401860404';
-
         // ============ НАВИГАЦИЯ ============
         function openNav() {
             document.getElementById('navDropdown').classList.add('active');
@@ -988,121 +956,170 @@
             });
         });
 
-        // ============ КАРУСЕЛЬ ============
-        var carouselPosition = 0;
+        // ============ КАРУСЕЛЬ (автоматическая + перетаскивание) ============
         var track = document.getElementById('carouselTrack');
+        var cards = track.querySelectorAll('.carousel-card');
         var cardWidth = 220;
+        var currentPosition = 0;
+        var isDragging = false;
+        var startX, startPosition;
+        var autoScrollInterval;
+        var autoScrollSpeed = 0.8;
+        var autoScrollDelay = 16;
 
-        function scrollCarousel(direction) {
-            var maxScroll = track.scrollWidth - track.parentElement.clientWidth;
-            carouselPosition += direction * cardWidth;
-            if (carouselPosition < 0) carouselPosition = 0;
-            if (carouselPosition > maxScroll) carouselPosition = maxScroll;
-            track.style.transform = 'translateX(-' + carouselPosition + 'px)';
+        function setupInfiniteCarousel() {
+            var originalHTML = '';
+            cards.forEach(function(card) {
+                originalHTML += card.outerHTML;
+            });
+
+            track.innerHTML = originalHTML + originalHTML + originalHTML;
+            currentPosition = cards.length * cardWidth;
+            track.style.transform = 'translateX(-' + currentPosition + 'px)';
         }
 
-        var isDragging = false;
-        var startX, scrollStart;
+        function startAutoScroll() {
+            stopAutoScroll();
+            autoScrollInterval = setInterval(function() {
+                if (!isDragging) {
+                    currentPosition += autoScrollSpeed;
 
+                    if (currentPosition >= cards.length * cardWidth * 2) {
+                        currentPosition = cards.length * cardWidth;
+                        track.style.transition = 'none';
+                        track.style.transform = 'translateX(-' + currentPosition + 'px)';
+                        requestAnimationFrame(function() {
+                            requestAnimationFrame(function() {
+                                track.style.transition = 'transform 0.5s ease';
+                            });
+                        });
+                    }
+
+                    track.style.transform = 'translateX(-' + currentPosition + 'px)';
+                }
+            }, autoScrollDelay);
+        }
+
+        function stopAutoScroll() {
+            if (autoScrollInterval) {
+                clearInterval(autoScrollInterval);
+                autoScrollInterval = null;
+            }
+        }
+
+        // Мышь
         track.addEventListener('mousedown', function(e) {
             isDragging = true;
             startX = e.pageX;
-            scrollStart = carouselPosition;
+            startPosition = currentPosition;
+            track.style.transition = 'none';
             track.style.cursor = 'grabbing';
+            stopAutoScroll();
         });
 
-        track.addEventListener('mouseleave', function() {
-            isDragging = false;
-            track.style.cursor = 'grab';
+        window.addEventListener('mouseup', function() {
+            if (isDragging) {
+                isDragging = false;
+                track.style.cursor = 'grab';
+                track.style.transition = 'transform 0.5s ease';
+                startAutoScroll();
+            }
         });
 
-        track.addEventListener('mouseup', function() {
-            isDragging = false;
-            track.style.cursor = 'grab';
-        });
-
-        track.addEventListener('mousemove', function(e) {
+        window.addEventListener('mousemove', function(e) {
             if (!isDragging) return;
             e.preventDefault();
             var dx = e.pageX - startX;
-            var newPosition = scrollStart - dx;
-            var maxScroll = track.scrollWidth - track.parentElement.clientWidth;
-            carouselPosition = Math.max(0, Math.min(newPosition, maxScroll));
-            track.style.transform = 'translateX(-' + carouselPosition + 'px)';
+            currentPosition = startPosition - dx;
+
+            var minPos = 0;
+            var maxPos = cards.length * cardWidth * 3 - track.parentElement.clientWidth;
+            if (currentPosition < minPos) currentPosition = minPos;
+            if (currentPosition > maxPos) currentPosition = maxPos;
+
+            track.style.transform = 'translateX(-' + currentPosition + 'px)';
         });
 
-        // ============ ОТПРАВКА ФОРМЫ В TELEGRAM ============
-        function handleSubmit(event) {
+        // Тач (мобильные)
+        track.addEventListener('touchstart', function(e) {
+            isDragging = true;
+            startX = e.touches[0].pageX;
+            startPosition = currentPosition;
+            track.style.transition = 'none';
+            stopAutoScroll();
+        });
+
+        window.addEventListener('touchend', function() {
+            if (isDragging) {
+                isDragging = false;
+                track.style.transition = 'transform 0.5s ease';
+                startAutoScroll();
+            }
+        });
+
+        window.addEventListener('touchmove', function(e) {
+            if (!isDragging) return;
+            var dx = e.touches[0].pageX - startX;
+            currentPosition = startPosition - dx;
+
+            var minPos = 0;
+            var maxPos = cards.length * cardWidth * 3 - track.parentElement.clientWidth;
+            if (currentPosition < minPos) currentPosition = minPos;
+            if (currentPosition > maxPos) currentPosition = maxPos;
+
+            track.style.transform = 'translateX(-' + currentPosition + 'px)';
+        });
+
+        // Запуск
+        setupInfiniteCarousel();
+        startAutoScroll();
+
+        // ============ ОТПРАВКА ФОРМЫ ЧЕРЕЗ FORMSPREE ============
+        var form = document.getElementById('applicationForm');
+        var statusDiv = document.getElementById('formStatus');
+        var submitBtn = document.getElementById('submitBtn');
+
+        form.addEventListener('submit', function(event) {
             event.preventDefault();
 
-            var form = event.target;
-            var statusDiv = document.getElementById('formStatus');
-            var submitBtn = document.getElementById('submitBtn');
-
-            // Собираем данные
-            var formData = {
-                fio: document.getElementById('fio').value.trim(),
-                email: document.getElementById('email').value.trim(),
-                phone: document.getElementById('phone').value.trim(),
-                grade: document.getElementById('grade').value
-            };
-
-            // Показываем статус загрузки
             statusDiv.className = 'form-status loading';
             statusDiv.textContent = '⏳ Отправляем заявку...';
             submitBtn.disabled = true;
             submitBtn.textContent = 'Отправка...';
 
-            // Формируем красивое сообщение
-            var message = '<b>🚨 Новая заявка с сайта!</b>\n\n';
-            message += '👤 <b>ФИО:</b> ' + formData.fio + '\n';
-            message += '📧 <b>Email:</b> ' + formData.email + '\n';
-            message += '📱 <b>Телефон:</b> ' + formData.phone + '\n';
-            message += '📚 <b>Класс поступления:</b> ' + formData.grade + '\n';
-            message += '\n📅 <i>Заявка отправлена: ' + new Date().toLocaleString('ru-RU') + '</i>';
+            var formData = new FormData(form);
 
-            var url = 'https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage';
-
-            fetch(url, {
+            fetch(form.action, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: CHAT_ID,
-                    text: message,
-                    parse_mode: 'HTML'
-                })
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
             })
             .then(function(response) {
                 if (response.ok) {
-                    // Успех
                     statusDiv.className = 'form-status success';
                     statusDiv.textContent = '✅ Спасибо! Ваша заявка принята. Мы свяжемся с вами в ближайшее время.';
                     form.reset();
                 } else {
-                    // Ошибка от Telegram
                     statusDiv.className = 'form-status error';
                     statusDiv.textContent = '❌ Ошибка отправки. Пожалуйста, попробуйте позже или свяжитесь с нами по телефону.';
                 }
             })
             .catch(function() {
-                // Ошибка соединения
                 statusDiv.className = 'form-status error';
                 statusDiv.textContent = '❌ Ошибка соединения. Проверьте подключение к интернету.';
             })
             .finally(function() {
-                // Возвращаем кнопку
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Отправить заявку';
-
-                // Убираем статус через 8 секунд
                 setTimeout(function() {
                     statusDiv.className = 'form-status';
                     statusDiv.textContent = '';
                 }, 8000);
             });
-        }
+        });
     </script>
 
 </body>
 </html>
-
