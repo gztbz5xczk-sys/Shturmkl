@@ -3,1039 +3,261 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Штурманский класс — Лицей Финансового университета</title>
+    <title>Штурманская группа — Лицей Финансового университета</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --primary-blue: #3a6b8c;
-            --deep-blue: #2c5282;
-            --light-blue: #b8d4e8;
-            --pale-blue: #dce9f2;
-            --milk-white: #faf8f5;
-            --cream: #f5f0eb;
-            --text-dark: #2d3748;
-            --text-medium: #4a5568;
-            --accent-gold: #c9a96e;
-            --shadow-soft: 0 4px 20px rgba(44, 82, 130, 0.08);
-            --shadow-medium: 0 8px 30px rgba(44, 82, 130, 0.12);
-            --radius-large: 24px;
-            --radius-medium: 16px;
-            --radius-small: 10px;
-            --font-heading: 'Century Gothic', 'Futura', 'Trebuchet MS', sans-serif;
-            --font-body: 'Century Gothic', 'Futura', 'Trebuchet MS', sans-serif;
+            --deep-emerald: #0a3d35; --sea-green: #1a5c5a; --light-sea: #8fc0b5;
+            --pale-sea: #dce8e4; --warm-milk: #fdf7f2; --text-dark: #2d3748;
+            --text-medium: #4a5568; --accent-gold: #c9a96e;
+            --shadow-soft: 0 4px 20px rgba(10,61,53,0.06); --shadow-medium: 0 8px 30px rgba(10,61,53,0.1);
+            --font-heading: 'Century Gothic','Futura','Trebuchet MS',sans-serif;
+            --font-body: 'Century Gothic','Futura','Trebuchet MS',sans-serif;
+            --emerald: #0f4d40;
+            --accent-bg: #f5f0e8;
         }
+        body { font-family: var(--font-body); background: var(--warm-milk); color: var(--text-dark); line-height: 1.7; overflow-x: hidden; }
 
-        body {
-            font-family: var(--font-body);
-            background-color: var(--milk-white);
-            color: var(--text-dark);
-            line-height: 1.7;
-            overflow-x: hidden;
-        }
-
-        /* ============ ЧАСТЬ 1: ШАПКА (HERO) С ГИФ-ФОНОМ ============ */
+        /* ШАПКА */
         .hero {
             background-image: url('https://raw.githubusercontent.com/gztbz5xczk-sys/sht-gif/dad239bfea1253990224099b0c38cf523693b5aa/5396F563-F263-46FC-8CBD-331BE5B979AC.gif');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            padding: 60px 40px;
-            overflow: hidden;
-        }
-
-        /* Затемнение для читаемости текста */
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .hero::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 40%;
-            background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.35) 100%);
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        /* Волновой переход */
-        .hero-bottom-wave {
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 100%;
-            height: 120px;
-            background: var(--milk-white);
-            clip-path: ellipse(60% 100% at 50% 100%);
-            z-index: 3;
-        }
-
-        .hero-content {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 60px;
-            max-width: 1200px;
-            width: 100%;
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero-logos {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 25px;
-            flex-shrink: 0;
-        }
-
-        .logo-lfu, .logo-hedgehog {
-            width: 90px;
-            height: 90px;
-            background: transparent;
-            backdrop-filter: none;
-            border-radius: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: none;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .logo-lfu:hover, .logo-hedgehog:hover {
-            background: transparent;
-            transform: scale(1.1);
-            box-shadow: none;
-        }
-
-        .logo-lfu::after {
-            content: 'ЛФУ';
-            color: white;
-            font-family: var(--font-heading);
-            font-size: 20px;
-            font-weight: 700;
-            letter-spacing: 2px;
-        }
-
-        .logo-hedgehog::after {
-            content: '🦔';
-            font-size: 50px;
-            filter: brightness(0) invert(1);
-            opacity: 0.9;
-        }
-
-        .logo-label {
-            color: rgba(255,255,255,0.8);
-            font-size: 12px;
-            text-align: center;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .hero-text-block {
-            text-align: center;
-            flex-grow: 1;
-        }
-
-        .hero-pre-title {
-            font-family: var(--font-body);
-            font-size: 16px;
-            font-weight: 400;
-            color: rgba(255,255,255,0.9);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 2px;
-            line-height: 1.4;
-        }
-
-        .hero-main-title {
-            font-family: var(--font-heading);
-            font-size: 72px;
-            font-weight: 700;
-            color: white;
-            line-height: 1.1;
-            margin: 4px 0;
-            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .hero-sub-title {
-            font-family: var(--font-body);
-            font-size: 17px;
-            font-weight: 300;
-            color: rgba(255,255,255,0.95);
-            letter-spacing: 0.5px;
-            margin-top: 2px;
-            line-height: 1.5;
-        }
-
-        .nav-helm {
-            flex-shrink: 0;
-            position: relative;
-            z-index: 101;
-        }
-
-        /* ШТУРВАЛ */
-        .helm-button {
-            width: 100px;
-            height: 100px;
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(10px);
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            position: relative;
-            transition: all 0.4s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 18px;
-        }
-
-        .helm-button:hover {
-            background: rgba(255,255,255,0.3);
-            transform: rotate(30deg);
-            box-shadow: 0 0 30px rgba(255,255,255,0.3);
-        }
-
-        .helm-button svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        .nav-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.4);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            z-index: 999;
-        }
-
-        .nav-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .nav-dropdown {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 300px;
-            max-width: 85vw;
-            height: 100vh;
-            background: white;
-            box-shadow: -5px 0 30px rgba(0,0,0,0.15);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateX(100%);
-            transition: all 0.35s ease;
-            z-index: 1000;
-            overflow-y: auto;
-            padding-top: 80px;
-            border-radius: 0;
-        }
-
-        .nav-dropdown.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(0);
-        }
-
-        .nav-dropdown a {
-            display: block;
-            padding: 16px 28px;
-            color: var(--text-dark);
-            text-decoration: none;
-            font-family: var(--font-body);
-            font-size: 16px;
-            border-bottom: 1px solid var(--pale-blue);
-            transition: all 0.2s ease;
-        }
-
-        .nav-dropdown a:hover {
-            background: var(--pale-blue);
-            color: var(--deep-blue);
-            padding-left: 35px;
-        }
-
-        .nav-dropdown a:last-child {
-            border-bottom: none;
-        }
-
-        .nav-close-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            background: var(--pale-blue);
-            border: none;
-            border-radius: 50%;
-            font-size: 20px;
-            cursor: pointer;
-            color: var(--deep-blue);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-            z-index: 1001;
-        }
-
-        .nav-close-btn:hover {
-            background: var(--deep-blue);
-            color: white;
-        }
-
-        /* ============ ОБЩИЕ СТИЛИ ДЛЯ СЕКЦИЙ ============ */
-        .main-content {
-            background: var(--milk-white);
-            position: relative;
-        }
-
-        .section {
-            padding: 60px 40px;
-            position: relative;
-        }
-
-        .section-container {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .content-card {
-            background: var(--pale-blue);
-            border-radius: var(--radius-large);
-            padding: 50px 55px;
-            box-shadow: var(--shadow-soft);
-            position: relative;
-            transition: transform 0.3s ease;
-            overflow-wrap: break-word;
-            word-wrap: break-word;
-            word-break: break-word;
-        }
-
-        .content-card:hover {
-            transform: translateY(-3px);
-        }
-
-        .section-alt .content-card {
-            background: white;
-        }
-
-        .section-title {
-            font-family: var(--font-heading);
-            font-size: 38px;
-            font-weight: 700;
-            color: var(--deep-blue);
-            margin-bottom: 25px;
-            position: relative;
-            display: inline-block;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 60px;
-            height: 3px;
-            background: var(--accent-gold);
-            border-radius: 2px;
-        }
-
-        .section-text {
-            font-family: var(--font-body);
-            font-size: 16px;
-            color: var(--text-medium);
-            line-height: 1.8;
-            overflow-wrap: break-word;
-            word-wrap: break-word;
-            word-break: break-word;
-        }
-
-        .section-connector {
-            height: 4px;
-            background: linear-gradient(to right, transparent, var(--light-blue), transparent);
-            margin: 0 40px;
-            opacity: 0.5;
-        }
-
-        /* ============ ЧАСТЬ 3: ПРЕПОДАВАТЕЛЬ ============ */
-        .teacher-layout {
-            display: flex;
-            gap: 40px;
-            align-items: flex-start;
-        }
-
-        .teacher-photo {
-            flex-shrink: 0;
-            width: 280px;
-            height: 350px;
-            background: rgba(255,255,255,0.5);
-            border-radius: var(--radius-medium);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px dashed rgba(44, 82, 130, 0.2);
-            color: var(--text-medium);
-            font-size: 14px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            overflow: hidden;
-        }
-
-        .teacher-photo:hover {
-            border-color: var(--deep-blue);
-            background: rgba(255,255,255,0.7);
-        }
-
-        .teacher-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .teacher-text {
-            flex: 1;
-            min-width: 0;
-        }
-
-        /* ============ ЧАСТЬ 4: ИСТОРИЯ ГРУППЫ ============ */
-        .video-container {
-            float: right;
-            width: 280px;
-            height: 500px;
-            margin: 0 0 20px 30px;
-            background: rgba(255,255,255,0.5);
-            border-radius: var(--radius-medium);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px dashed rgba(44, 82, 130, 0.2);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 14px;
-            color: var(--text-medium);
-        }
-
-        .video-container:hover {
-            border-color: var(--deep-blue);
-        }
-
-        .carousel-section {
-            margin-top: 50px;
-            clear: both;
-        }
-
-        .carousel-title {
-            font-family: var(--font-heading);
-            font-size: 24px;
-            color: var(--deep-blue);
-            margin-bottom: 25px;
-        }
-
-        .carousel-container {
-            position: relative;
-            overflow: hidden;
-            padding: 10px 0;
-            mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
-        }
-
-        .carousel-track {
-            display: flex;
-            gap: 20px;
-            transition: transform 0.5s ease;
-            cursor: grab;
-            width: fit-content;
-        }
-
-        .carousel-track:active {
-            cursor: grabbing;
-        }
-
-        .carousel-card {
-            flex-shrink: 0;
-            width: 200px;
-            background: white;
-            border-radius: var(--radius-medium);
-            box-shadow: var(--shadow-soft);
-            padding: 15px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .carousel-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-medium);
-        }
-
-        .carousel-photo {
-            width: 100%;
-            height: 200px;
-            background: var(--pale-blue);
-            border-radius: var(--radius-small);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            color: var(--deep-blue);
-            overflow: hidden;
-        }
-
-        .carousel-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .carousel-name {
-            font-family: var(--font-heading);
-            font-size: 16px;
-            color: var(--text-dark);
-            font-weight: 600;
-        }
-
-        /* ============ КНОПКИ СОЦСЕТЕЙ ============ */
-        .social-buttons {
-            margin-top: 35px;
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .social-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            color: white;
-            padding: 14px 24px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-family: var(--font-body);
-            font-size: 15px;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-        }
-
-        .social-btn:hover {
-            transform: translateY(-3px);
-        }
-
-        .social-btn.telegram {
-            background: #2AABEE;
-            box-shadow: 0 4px 12px rgba(42,171,238,0.3);
-        }
-
-        .social-btn.telegram:hover {
-            box-shadow: 0 8px 20px rgba(42,171,238,0.45);
-        }
-
-        .social-btn.vkontakte {
-            background: #0077FF;
-            box-shadow: 0 4px 12px rgba(0,119,255,0.3);
-        }
-
-        .social-btn.vkontakte:hover {
-            box-shadow: 0 8px 20px rgba(0,119,255,0.45);
-        }
-
-        .social-btn.tiktok {
-            background: #000000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-
-        .social-btn.tiktok:hover {
-            box-shadow: 0 8px 20px rgba(0,0,0,0.45);
-        }
-
-        .social-btn-icon {
-            font-size: 20px;
-        }
-
-        /* ============ ЧАСТЬ 5: А ЧТО СЕЙЧАС? ============ */
-        .three-columns {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
-        }
-
-        .sub-block {
-            background: white;
-            border-radius: var(--radius-medium);
-            padding: 30px;
-            box-shadow: var(--shadow-soft);
-            transition: all 0.3s ease;
-            overflow-wrap: break-word;
-            word-wrap: break-word;
-            word-break: break-word;
-        }
-
-        .sub-block:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-medium);
-        }
-
-        .sub-block-title {
-            font-family: var(--font-heading);
-            font-size: 22px;
-            color: var(--deep-blue);
-            margin-bottom: 18px;
-            position: relative;
-            padding-bottom: 10px;
-        }
-
-        .sub-block-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 40px;
-            height: 2px;
-            background: var(--accent-gold);
-            border-radius: 1px;
-        }
-
-        /* ============ ЧАСТЬ 6: ПОСТУПЛЕНИЕ ============ */
-        .form-card {
-            background: white;
-            border-radius: var(--radius-large);
-            padding: 45px;
-            box-shadow: var(--shadow-soft);
-            margin-top: 30px;
-        }
-
-        .form-group {
-            margin-bottom: 22px;
-        }
-
-        .form-label {
-            display: block;
-            font-family: var(--font-body);
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-dark);
-            margin-bottom: 8px;
-            letter-spacing: 0.5px;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 14px 18px;
-            border: 2px solid var(--pale-blue);
-            border-radius: var(--radius-small);
-            font-family: var(--font-body);
-            font-size: 15px;
-            color: var(--text-dark);
-            background: var(--milk-white);
-            transition: all 0.3s ease;
-            outline: none;
-        }
-
-        .form-input:focus {
-            border-color: var(--deep-blue);
-            box-shadow: 0 0 0 3px rgba(44, 82, 130, 0.1);
-        }
-
-        .form-submit {
-            background: var(--deep-blue);
-            color: white;
-            border: none;
-            padding: 16px 40px;
-            border-radius: var(--radius-small);
-            font-family: var(--font-body);
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            width: 100%;
-            max-width: 300px;
-        }
-
-        .form-submit:hover {
-            background: #1a3f5c;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(44, 82, 130, 0.3);
-        }
-
-        .form-status {
-            display: none;
-            padding: 14px 20px;
-            border-radius: var(--radius-small);
-            margin-top: 20px;
-            font-size: 15px;
-            text-align: center;
-            font-weight: 500;
-        }
-
-        .form-status.success {
-            display: block;
-            background: #e6f7ee;
-            color: #1a7f4b;
-            border: 1px solid #b7e4cf;
-        }
-
-        .form-status.error {
-            display: block;
-            background: #fde8e8;
-            color: #c53030;
-            border: 1px solid #f5c6c6;
-        }
-
-        .form-status.loading {
-            display: block;
-            background: #eef2ff;
-            color: #3a5ccc;
-            border: 1px solid #c7d2fe;
-        }
-
-        /* ============ ФУТЕР ============ */
-        .site-footer {
-            background: var(--deep-blue);
-            color: rgba(255,255,255,0.8);
-            text-align: center;
-            padding: 30px 20px;
-            font-size: 14px;
-            margin-top: 0;
-        }
+            background-size: cover; background-position: center top; background-repeat: no-repeat;
+            min-height: 100vh; display: flex; align-items: flex-start; justify-content: center;
+            position: relative; padding: 20px 40px 120px 15px; overflow: visible;
+        }
+        .hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.02); z-index: 1; pointer-events: none; }
+        .hero-waves { position: absolute; bottom: -40px; left: 0; width: 100%; height: 100px; z-index: 3; pointer-events: none; }
+        .wave-dark { position: absolute; bottom: 30px; left: 0; width: 100%; height: 70px; background: var(--sea-green); clip-path: ellipse(60% 100% at 50% 0%); opacity: 0.8; filter: blur(4px); }
+        .wave-light { position: absolute; bottom: 0; left: 0; width: 100%; height: 50px; background: var(--warm-milk); clip-path: ellipse(55% 100% at 50% 0%); }
+        .hero-content { display: flex; align-items: flex-start; justify-content: center; gap: 30px; max-width: 1100px; width: 100%; position: relative; z-index: 2; }
+        .hero-logos { display: flex; flex-direction: column; align-items: center; gap: 15px; flex-shrink: 0; position: absolute; left: 20px; top: 5px; }
+        .logo-lfu, .logo-hedgehog { background: transparent; display: flex; align-items: center; justify-content: center; border: none; transition: all .3s; cursor: pointer; overflow: hidden; }
+        .logo-lfu { width: 160px; height: 160px; } .logo-lfu:hover { transform: scale(1.05); }
+        .logo-hedgehog { width: 85px; height: 85px; } .logo-hedgehog:hover { transform: scale(1.1); }
+        .logo-lfu img, .logo-hedgehog img { width: 100%; height: 100%; object-fit: contain; }
+        .hero-text-block { text-align: center; flex-grow: 1; max-width: 700px; padding-top: 20px; margin: 0 auto; }
+        .hero-main-title { font-family: var(--font-heading); font-size: 42px; font-weight: 700; color: var(--emerald); line-height: 1.2; margin: 0 0 12px 0; text-shadow: 0 2px 8px rgba(255,255,255,0.5); letter-spacing: 7.5px; text-transform: uppercase; white-space: nowrap; animation: revealText 1.5s ease-out forwards; opacity: 0; }
+        .hero-second-title { font-family: var(--font-heading); font-size: 24px; font-weight: 600; color: var(--emerald); line-height: 1.2; margin: 0 0 12px 0; text-shadow: 0 1px 6px rgba(255,255,255,0.5); letter-spacing: 2.7px; white-space: nowrap; animation: revealText 1.5s ease-out .25s forwards; opacity: 0; }
+        .hero-sub-title { font-family: var(--font-body); font-size: 15px; font-weight: 600; color: var(--emerald); letter-spacing: 0.5px; margin: 0; line-height: 1.2; text-shadow: 0 1px 5px rgba(255,255,255,0.5); text-transform: uppercase; white-space: nowrap; animation: revealText 1.5s ease-out .5s forwards; opacity: 0; }
+        @keyframes revealText { 0% { opacity: 0; transform: scale(1.15); filter: blur(10px); } 60% { opacity: 0.8; filter: blur(3px); } 100% { opacity: 1; transform: scale(1); filter: blur(0); } }
+        .nav-block { position: fixed; top: 15px; right: 20px; display: flex; flex-direction: column; align-items: center; gap: 5px; z-index: 101; }
+        .nav-label { font-family: var(--font-body); font-size: 8px; color: rgba(255,255,255,0.9); letter-spacing: 2px; text-transform: uppercase; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+        .helm-button { width: 38px; height: 38px; background: rgba(255,255,255,0.2); backdrop-filter: blur(8px); border: none; border-radius: 50%; cursor: pointer; transition: all .4s; display: flex; align-items: center; justify-content: center; padding: 7px; }
+        .helm-button:hover { background: rgba(255,255,255,0.4); transform: rotate(30deg); box-shadow: 0 0 15px rgba(255,255,255,0.4); }
+        .helm-button svg { width: 100%; height: 100%; }
+
+        /* СОЦСЕТИ В ШАПКЕ */
+        .hero-socials { position: absolute; bottom: 80px; left: 40px; z-index: 5; display: flex; gap: 16px; flex-wrap: wrap; }
+        .hero-social-btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px; border: 2px solid rgba(255,255,255,0.8); color: rgba(255,255,255,0.9); border-radius: 30px; text-decoration: none; font-size: 16px; font-weight: 500; letter-spacing: 1px; transition: all .3s; background: rgba(0,0,0,0.2); backdrop-filter: blur(5px); }
+        .hero-social-btn:hover { background: rgba(255,255,255,0.25); color: #fff; border-color: #fff; }
+
+        /* МЕНЮ */
+        .nav-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,.4); opacity: 0; visibility: hidden; transition: all .3s; z-index: 999; }
+        .nav-overlay.active { opacity: 1; visibility: visible; }
+        .nav-dropdown { position: fixed; top: 0; right: 0; width: 300px; max-width: 85vw; height: 100vh; background: #fff; box-shadow: -5px 0 30px rgba(0,0,0,.15); opacity: 0; visibility: hidden; transform: translateX(100%); transition: all .35s; z-index: 1000; overflow-y: auto; padding-top: 80px; }
+        .nav-dropdown.active { opacity: 1; visibility: visible; transform: translateX(0); }
+        .nav-dropdown a { display: block; padding: 16px 28px; color: #2d3748; text-decoration: none; font-size: 16px; border-bottom: 1px solid #dce8e4; transition: all .2s; }
+        .nav-dropdown a:hover { background: #dce8e4; color: #0a3d35; padding-left: 35px; }
+        .nav-close-btn { position: absolute; top: 20px; right: 20px; width: 40px; height: 40px; background: #dce8e4; border: none; border-radius: 50%; font-size: 20px; cursor: pointer; color: #0a3d35; display: flex; align-items: center; justify-content: center; transition: all .2s; z-index: 1001; }
+        .nav-close-btn:hover { background: #0a3d35; color: #fff; }
+
+        /* ОСНОВНОЙ КОНТЕНТ */
+        .main-content { background: var(--warm-milk); position: relative; margin-top: -2px; }
+        .section { padding: 100px 40px; position: relative; }
+        .section-container { max-width: 900px; margin: 0 auto; }
+        .content-card { background: var(--pale-sea); padding: 70px 80px; position: relative; }
+        .section-alt .content-card { background: #fff; }
+        .section-title { font-family: var(--font-heading); font-size: 32px; font-weight: 300; color: var(--deep-emerald); letter-spacing: 5px; text-transform: uppercase; margin-bottom: 12px; display: inline-block; position: relative; }
+        .section-title::after { content: ''; position: absolute; bottom: -10px; left: 0; width: 50px; height: 2px; background: var(--accent-gold); }
+        .section-subtitle { font-family: var(--font-heading); font-size: 18px; font-weight: 400; color: var(--text-medium); font-style: italic; text-align: center; margin-bottom: 50px; margin-top: 20px; }
+        .section-text { font-family: var(--font-body); font-size: 16px; color: var(--text-medium); line-height: 2; overflow-wrap: break-word; margin-bottom: 16px; }
+        .section-text strong { color: var(--deep-emerald); font-weight: 600; }
+        .section-text em { color: var(--sea-green); font-style: italic; }
+        .section-connector { height: 1px; background: linear-gradient(to right, transparent, var(--light-sea), transparent); margin: 0 40px; }
+
+        /* ПОДЗАГОЛОВКИ */
+        .sub-heading { font-family: var(--font-heading); font-size: 20px; font-weight: 600; color: var(--deep-emerald); margin: 40px 0 16px 0; padding-left: 18px; border-left: 2px solid var(--accent-gold); letter-spacing: 1px; }
+
+        /* АКЦЕНТНАЯ СЕКЦИЯ (отдельная) */
+        .accent-section { padding: 0 40px; }
+        .accent-block { background: var(--accent-bg); color: var(--deep-emerald); text-align: center; padding: 50px 40px; border: 1.5px solid var(--deep-emerald); font-family: var(--font-heading); font-size: 19px; font-weight: 400; line-height: 1.7; letter-spacing: 1px; font-style: italic; max-width: 900px; margin: 0 auto; }
+        .accent-block em { color: var(--sea-green); font-style: italic; }
+
+        /* КАРТОЧКИ ФАКТОВ */
+        .fact-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 40px; margin: 40px 0; }
+        .fact-card { text-align: center; padding: 40px 25px; border-top: 2px solid var(--accent-gold); }
+        .fact-card .fact-number { font-family: var(--font-heading); font-size: 52px; font-weight: 300; color: var(--sea-green); letter-spacing: 2px; line-height: 1.1; }
+        .fact-card .fact-label { font-size: 13px; color: var(--text-medium); margin-top: 12px; line-height: 1.6; }
+
+        /* ПРЕПОДАВАТЕЛЬ */
+        .teacher-layout { display: flex; gap: 50px; align-items: flex-start; margin-bottom: 35px; }
+        .teacher-photo { flex-shrink: 0; width: 280px; height: 350px; background: rgba(255,255,255,.5); display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: var(--shadow-soft); }
+        .teacher-photo img { width: 100%; height: 100%; object-fit: cover; }
+        .teacher-text { flex: 1; min-width: 0; }
+
+        /* КАРУСЕЛЬ */
+        .carousel-section { margin-top: 40px; }
+        .carousel-container { position: relative; overflow: hidden; padding: 10px 0; }
+        .carousel-track { display: flex; gap: 20px; transition: transform .5s; cursor: grab; width: fit-content; }
+        .carousel-track:active { cursor: grabbing; }
+        .carousel-card { flex-shrink: 0; width: 300px; height: 360px; background: #fff; overflow: hidden; box-shadow: var(--shadow-soft); transition: all .3s; user-select: none; -webkit-user-drag: none; }
+        .carousel-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-medium); }
+        .carousel-card img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+
+        /* ШАГИ */
+        .step-block { margin-bottom: 30px; padding-left: 25px; border-left: 2px solid var(--light-sea); }
+        .step-heading { font-family: var(--font-heading); font-size: 20px; font-weight: 600; color: var(--deep-emerald); margin-bottom: 4px; letter-spacing: 1px; }
+        .step-title { font-family: var(--font-heading); font-size: 17px; font-weight: 600; color: var(--sea-green); margin-bottom: 8px; }
+        .note-small { font-size: 13px; color: var(--text-medium); font-style: italic; font-weight: 600; margin-top: 6px; display: block; }
+
+        /* СОЦСЕТИ В ФУТЕРЕ */
+        .social-buttons { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; justify-content: center; margin-top: 35px; }
+        .social-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border: 1.5px solid var(--sea-green); color: var(--sea-green); border-radius: 30px; text-decoration: none; font-size: 13px; font-weight: 500; letter-spacing: 1px; transition: all .3s; background: transparent; }
+        .social-btn:hover { background: var(--sea-green); color: #fff; }
+
+        /* ФОРМА */
+        .form-card { background: #fff; padding: 50px; box-shadow: var(--shadow-soft); margin-top: 35px; }
+        .form-group { margin-bottom: 22px; }
+        .form-label { display: block; font-size: 14px; font-weight: 500; color: #2d3748; margin-bottom: 8px; letter-spacing: .5px; }
+        .form-input { width: 100%; padding: 14px 18px; border: 2px solid var(--pale-sea); font-size: 15px; color: #2d3748; background: var(--warm-milk); transition: all .3s; outline: none; }
+        .form-input:focus { border-color: var(--sea-green); box-shadow: 0 0 0 3px rgba(26,92,90,.1); }
+        .form-submit { background: var(--sea-green); color: #fff; border: none; padding: 16px 40px; font-size: 16px; font-weight: 600; cursor: pointer; letter-spacing: 2px; transition: all .3s; text-transform: uppercase; width: 100%; max-width: 320px; }
+        .form-submit:hover { background: var(--deep-emerald); transform: translateY(-2px); }
+        .form-status { display: none; padding: 14px 20px; margin-top: 20px; font-size: 15px; text-align: center; font-weight: 500; }
+        .form-status.success { display: block; background: #e6f7ee; color: #1a7f4b; }
+        .form-status.error { display: block; background: #fde8e8; color: #c53030; }
+        .form-status.loading { display: block; background: #eef2ff; color: #3a5ccc; }
+        .after-form-text { font-style: italic; text-align: center; margin-top: 25px; color: var(--text-medium); }
+
+        /* ФУТЕР */
+        .site-footer { background: var(--deep-emerald); color: rgba(255,255,255,.8); text-align: center; padding: 35px 20px; font-size: 14px; }
 
-        /* ============ АДАПТИВНОСТЬ ============ */
         @media (max-width: 968px) {
-            .hero {
-                padding: 40px 20px;
-                min-height: 100vh;
-            }
-
-            .hero-content {
-                flex-direction: column;
-                gap: 25px;
-            }
-            
-            .hero-logos {
-                flex-direction: row;
-                gap: 15px;
-            }
-
-            .logo-lfu, .logo-hedgehog {
-                width: 60px;
-                height: 60px;
-            }
-
-            .logo-lfu::after {
-                font-size: 15px;
-            }
-
-            .logo-hedgehog::after {
-                font-size: 32px;
-            }
-
-            .logo-label {
-                font-size: 10px;
-            }
-            
-            .hero-main-title {
-                font-size: 34px;
-                letter-spacing: 0.5px;
-            }
-
-            .hero-pre-title {
-                font-size: 12px;
-                letter-spacing: 1px;
-            }
-
-            .hero-sub-title {
-                font-size: 13px;
-            }
-
-            .helm-button {
-                width: 70px;
-                height: 70px;
-                padding: 13px;
-            }
-
-            .hero-bottom-wave {
-                height: 60px;
-            }
-            
-            .teacher-layout {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .teacher-photo {
-                width: 100%;
-                max-width: 280px;
-                height: 300px;
-            }
-            
-            .three-columns {
-                grid-template-columns: 1fr;
-            }
-            
-            .content-card {
-                padding: 25px 20px;
-            }
-
-            .section-title {
-                font-size: 28px;
-            }
-
-            .section-text {
-                font-size: 15px;
-            }
-            
-            .video-container {
-                float: none;
-                width: 100%;
-                height: 400px;
-                margin: 0 0 20px 0;
-            }
-            
-            .section {
-                padding: 35px 15px;
-            }
-            
-            .section-connector {
-                margin: 0 15px;
-            }
-            
-            .social-buttons {
-                gap: 10px;
-            }
-            
-            .social-btn {
-                padding: 12px 16px;
-                font-size: 13px;
-            }
-
-            .social-btn-icon {
-                font-size: 16px;
-            }
-
-            .form-card {
-                padding: 25px 20px;
-            }
-
-            .form-submit {
-                max-width: 100%;
-            }
-
-            .carousel-card {
-                width: 160px;
-            }
-
-            .carousel-photo {
-                height: 160px;
-            }
-
-            .site-footer {
-                padding: 20px 15px;
-                font-size: 12px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero-main-title {
-                font-size: 28px;
-            }
-
-            .hero-pre-title {
-                font-size: 10px;
-            }
-
-            .hero-sub-title {
-                font-size: 12px;
-            }
-
-            .section-title {
-                font-size: 24px;
-            }
-
-            .section-text {
-                font-size: 14px;
-            }
-
-            .content-card {
-                padding: 20px 15px;
-            }
+            .hero { padding: 20px 15px 100px 15px; }
+            .hero-content { flex-direction: column; align-items: center; gap: 15px; padding-top: 60px; }
+            .hero-logos { position: relative; left: auto; top: auto; flex-direction: row; gap: 12px; }
+            .logo-lfu { width: 80px; height: 80px; } .logo-hedgehog { width: 50px; height: 50px; }
+            .hero-text-block { text-align: center; max-width: 100%; }
+            .hero-main-title { font-size: 24px; white-space: normal; letter-spacing: 3px; }
+            .hero-second-title { font-size: 16px; white-space: normal; letter-spacing: 1.5px; }
+            .hero-sub-title { font-size: 12px; white-space: normal; letter-spacing: 0.5px; }
+            .hero-socials { bottom: 60px; left: 20px; gap: 10px; }
+            .hero-social-btn { padding: 10px 20px; font-size: 14px; }
+            .fact-cards { grid-template-columns: 1fr; gap: 20px; }
+            .content-card { padding: 40px 30px; }
+            .section { padding: 60px 20px; }
+            .accent-section { padding: 0 20px; }
+            .accent-block { padding: 35px 25px; font-size: 16px; }
+            .teacher-layout { flex-direction: column; align-items: center; }
+            .teacher-photo { width: 100%; max-width: 280px; height: 300px; }
+            .carousel-card { width: 240px; height: 300px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ============ ЧАСТЬ 1: ШАПКА С ГИФ-ФОНОМ ============ -->
     <header class="hero" id="hero">
         <div class="hero-content">
             <div class="hero-logos">
-                <div class="logo-lfu" title="Лицей Финансового университета">
-                    <!-- Заменить: <img src="логотип_лфу.png" alt="ЛФУ" style="width:100%;height:100%;object-fit:contain;"> -->
+                <a href="https://school.fa.ru/" target="_blank" class="logo-lfu" title="Лицей Финансового университета">
+                    <img src="https://github.com/gztbz5xczk-sys/sht-gif/blob/main/%D0%A4%D0%A3%D0%A3%D0%A3%D0%A3.png?raw=true" alt="ЛФУ">
+                </a>
+                <div class="logo-hedgehog" title="Штурманская группа">
+                    <img src="https://github.com/gztbz5xczk-sys/sht-gif/blob/main/%D0%9B%D0%BE%D0%B3%D0%BE%D1%82%D0%B8%D0%BF%20%D0%95%CC%88%D0%B6.png?raw=true" alt="Ёж">
                 </div>
-                <span class="logo-label">Лицей ФУ</span>
-                <div class="logo-hedgehog" title="Штурманский класс">
-                    <!-- Заменить: <img src="логотип_ежа.png" alt="Ёж" style="width:100%;height:100%;object-fit:contain;"> -->
-                </div>
-                <span class="logo-label">Штурман</span>
             </div>
-
             <div class="hero-text-block">
-                <p class="hero-pre-title">Лицей Финансового университета<br>при Правительстве Российской Федерации запускает</p>
-                <h1 class="hero-main-title">штурманский<br>класс</h1>
-                <p class="hero-sub-title">— профильный класс по подготовке к Всероссийской<br>олимпиаде школьников по русскому языку.</p>
-            </div>
-
-            <!-- ШТУРВАЛ -->
-            <div class="nav-helm">
-                <button class="helm-button" onclick="openNav()" title="Навигация">
-                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="50" cy="50" r="42" stroke="white" stroke-width="5" fill="none" opacity="0.9"/>
-                        <circle cx="50" cy="8" r="6" fill="white" opacity="0.9"/>
-                        <circle cx="79.7" cy="20.3" r="6" fill="white" opacity="0.9"/>
-                        <circle cx="92" cy="50" r="6" fill="white" opacity="0.9"/>
-                        <circle cx="79.7" cy="79.7" r="6" fill="white" opacity="0.9"/>
-                        <circle cx="50" cy="92" r="6" fill="white" opacity="0.9"/>
-                        <circle cx="20.3" cy="79.7" r="6" fill="white" opacity="0.9"/>
-                        <circle cx="8" cy="50" r="6" fill="white" opacity="0.9"/>
-                        <circle cx="20.3" cy="20.3" r="6" fill="white" opacity="0.9"/>
-                        <circle cx="50" cy="50" r="14" stroke="white" stroke-width="2" fill="none" opacity="0.8"/>
-                        <line x1="50" y1="36" x2="50" y2="8" stroke="white" stroke-width="2.5" opacity="0.8"/>
-                        <line x1="50" y1="64" x2="50" y2="92" stroke="white" stroke-width="2.5" opacity="0.8"/>
-                        <line x1="36" y1="50" x2="8" y2="50" stroke="white" stroke-width="2.5" opacity="0.8"/>
-                        <line x1="64" y1="50" x2="92" y2="50" stroke="white" stroke-width="2.5" opacity="0.8"/>
-                        <line x1="60" y1="40" x2="79.7" y2="20.3" stroke="white" stroke-width="2.5" opacity="0.8"/>
-                        <line x1="60" y1="60" x2="79.7" y2="79.7" stroke="white" stroke-width="2.5" opacity="0.8"/>
-                        <line x1="40" y1="60" x2="20.3" y2="79.7" stroke="white" stroke-width="2.5" opacity="0.8"/>
-                        <line x1="40" y1="40" x2="20.3" y2="20.3" stroke="white" stroke-width="2.5" opacity="0.8"/>
-                        <circle cx="50" cy="50" r="5" fill="white" opacity="0.9"/>
-                    </svg>
-                </button>
+                <h1 class="hero-main-title">ШТУРМАНСКАЯ ГРУППА</h1>
+                <p class="hero-second-title">олимпиадная подготовка по русскому языку</p>
+                <p class="hero-sub-title">в лицее финуниверситета при правительстве российской федерации</p>
             </div>
         </div>
-        <div class="hero-bottom-wave"></div>
+        <div class="hero-socials">
+            <a href="https://t.me/ваша_ссылка" target="_blank" class="hero-social-btn">мы в Telegram</a>
+            <a href="https://vk.com/ваша_ссылка" target="_blank" class="hero-social-btn">мы ВКонтакте</a>
+        </div>
+        <div class="hero-waves"><div class="wave-dark"></div><div class="wave-light"></div></div>
     </header>
 
-    <!-- Затемнение и меню -->
+    <div class="nav-block">
+        <span class="nav-label">навигация</span>
+        <button class="helm-button" onclick="openNav()" title="Навигация">
+            <svg viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="42" stroke="white" stroke-width="5" fill="none" opacity="0.9"/><circle cx="50" cy="8" r="6" fill="white" opacity="0.9"/><circle cx="79.7" cy="20.3" r="6" fill="white" opacity="0.9"/><circle cx="92" cy="50" r="6" fill="white" opacity="0.9"/><circle cx="79.7" cy="79.7" r="6" fill="white" opacity="0.9"/><circle cx="50" cy="92" r="6" fill="white" opacity="0.9"/><circle cx="20.3" cy="79.7" r="6" fill="white" opacity="0.9"/><circle cx="8" cy="50" r="6" fill="white" opacity="0.9"/><circle cx="20.3" cy="20.3" r="6" fill="white" opacity="0.9"/><circle cx="50" cy="50" r="14" stroke="white" stroke-width="2" fill="none" opacity="0.8"/><line x1="50" y1="36" x2="50" y2="8" stroke="white" stroke-width="2.5" opacity="0.8"/><line x1="50" y1="64" x2="50" y2="92" stroke="white" stroke-width="2.5" opacity="0.8"/><line x1="36" y1="50" x2="8" y2="50" stroke="white" stroke-width="2.5" opacity="0.8"/><line x1="64" y1="50" x2="92" y2="50" stroke="white" stroke-width="2.5" opacity="0.8"/><line x1="60" y1="40" x2="79.7" y2="20.3" stroke="white" stroke-width="2.5" opacity="0.8"/><line x1="60" y1="60" x2="79.7" y2="79.7" stroke="white" stroke-width="2.5" opacity="0.8"/><line x1="40" y1="60" x2="20.3" y2="79.7" stroke="white" stroke-width="2.5" opacity="0.8"/><line x1="40" y1="40" x2="20.3" y2="20.3" stroke="white" stroke-width="2.5" opacity="0.8"/><circle cx="50" cy="50" r="5" fill="white" opacity="0.9"/></svg>
+        </button>
+    </div>
+
     <div class="nav-overlay" id="navOverlay" onclick="closeNav()"></div>
     <nav class="nav-dropdown" id="navDropdown">
         <button class="nav-close-btn" onclick="closeNav()">✕</button>
         <a href="#section-lfu" onclick="closeNav()">Что такое ЛФУ</a>
         <a href="#section-teacher" onclick="closeNav()">Преподаватель</a>
-        <a href="#section-history" onclick="closeNav()">История группы</a>
-        <a href="#section-now" onclick="closeNav()">А что сейчас?</a>
-        <a href="#section-admission" onclick="closeNav()">Поступление</a>
+        <a href="#section-features" onclick="closeNav()">Особенности обучения</a>
+        <a href="#section-admission" onclick="closeNav()">Хочу поступить!</a>
     </nav>
 
-    <!-- ============ ОСНОВНОЙ КОНТЕНТ ============ -->
     <main class="main-content">
-
         <div class="section-connector"></div>
 
-        <!-- ============ ЧАСТЬ 2: ЧТО ТАКОЕ ЛФУ ============ -->
-        <section class="section" id="section-lfu">
+        <!-- ЧТО ТАКОЕ ЛФУ -->
+        <section class="section section-alt" id="section-lfu">
             <div class="section-container">
                 <div class="content-card">
-                    <h2 class="section-title">Что такое ЛФУ?</h2>
-                    <div class="section-text">
-                        <p>Лицей Финансового университета при Правительстве Российской Федерации — это уникальное образовательное учреждение, сочетающее лучшие традиции классического образования с инновационными методиками. Наши ученики получают не только глубокие академические знания, но и развивают критическое мышление, исследовательские навыки и лидерские качества.</p>
-                        <p style="margin-top: 15px;">Лицей создаёт среду, в которой каждый учащийся может раскрыть свой потенциал под руководством опытных наставников и преподавателей высшей квалификации.</p>
+                    <h2 class="section-title">Что такое Лицей Финуниверситета?</h2>
+                    <p class="section-subtitle">Одна из наиболее престижных школ Москвы.</p>
+
+                    <div class="fact-cards">
+                        <div class="fact-card"><div class="fact-number">ТОП-2</div><div class="fact-label">Рейтинг RAEX 2025<br>по конкурентоспособности выпускников</div></div>
+                        <div class="fact-card"><div class="fact-number">60</div><div class="fact-label">победителей и призёров ЗЭ ВсОШ<br>за 2025/2026 учебный год</div></div>
+                        <div class="fact-card"><div class="fact-number">4×</div><div class="fact-label">победы на ЗЭ ВсОШ по русскому языку<br>за три последних года</div></div>
                     </div>
+
+                    <p class="section-text">Лицей входит в <strong>топ-2 лучших школ Москвы</strong> по конкурентоспособности выпускников в сфере «Социальные и гуманитарные направления».</p>
+
+                    <div class="sub-heading">Всероссийская олимпиада школьников</div>
+                    <p class="section-text">За один только 2025/2026 учебный год <strong>60 учащихся</strong> Лицея стали <strong>победителями и призёрами</strong> ЗЭ ВсОШ.</p>
+                    <p class="section-text">Несмотря на отсутствие до настоящего момента специализированной подготовки к ВсОШ по русскому языку, на протяжении трёх последних лет лицеисты <strong>четырежды</strong> становились <strong>победителями</strong> заключительного этапа по этому предмету, <strong>дважды – призёрами</strong>.</p>
+
+                    <div class="sub-heading">Опытные преподаватели</div>
+                    <p class="section-text">Подобные результаты подтверждают <strong>высокий уровень</strong> образовательных программ, который обеспечивается профессионализмом педагогического коллектива Лицея.</p>
+                    <p class="section-text">Большинство преподавателей – эксперты <strong>ЕГЭ</strong>, педагоги <strong>высшей или первой квалификационных категорий, кандидаты наук, методисты «Центра педагогического мастерства»</strong>. Четверо преподавателей являются выпускниками Лицея.</p>
                 </div>
             </div>
         </section>
 
+        <!-- АКЦЕНТНЫЙ БЛОК 1 (отдельно) -->
+        <div class="accent-section">
+            <div class="accent-block">
+                В 2026/2027 учебном году Лицей запускает новую, не имеющую аналогов программу –<br><em>авторские курсы олимпиадной подготовки по русскому языку.</em>
+            </div>
+        </div>
+
         <div class="section-connector"></div>
 
-        <!-- ============ ЧАСТЬ 3: ПРЕПОДАВАТЕЛЬ ============ -->
-        <section class="section section-alt" id="section-teacher">
+        <!-- ПРЕПОДАВАТЕЛЬ -->
+        <section class="section" id="section-teacher">
             <div class="section-container">
                 <div class="content-card">
                     <h2 class="section-title">Преподаватель</h2>
                     <div class="teacher-layout">
-                        <div class="teacher-photo" title="Добавить фото">
-                            <!-- Заменить: <img src="фото_преподавателя.jpg" alt="М.А. Шутеев"> -->
-                            <span>📷<br>Фото<br>преподавателя</span>
-                        </div>
+                        <div class="teacher-photo" title="Максим Андреевич Шутеев"><span style="color:var(--text-medium);">📷<br>Фото</span></div>
                         <div class="teacher-text">
-                            <div class="section-text">
-                                <p><strong>Максим Андреевич Шутеев.</strong></p>
-                                <p style="margin-top: 10px;">Член Центральной предметно-методической комиссии (ЦПМК) Всероссийской олимпиады школьников по русскому языку.</p>
-                                <p style="margin-top: 8px;">Сферой ответственности ЦПМК среди прочего является разработка заданий, критериев и методик оценивания регионального и заключительного этапов ВсОШ.</p>
-                                <p style="margin-top: 8px;">Студент образовательной программы «Фундаментальная и компьютерная лингвистика» факультета гуманитарных наук НИУ ВШЭ.</p>
-                                <p style="margin-top: 8px;">Студент образовательной программы «Русский язык и литература» филологического факультета МГУ имени М. В. Ломоносова.</p>
-                                <p style="margin-top: 8px;">В прошлом — 7-кратный победитель и призёр ЗЭ ВсОШ по русскому языку и истории.</p>
-                                <p style="margin-top: 8px;">Будучи в 11 классе, подготовил авторские курсы по подготовке к ВсОШ по русскому языку, на которых занимались 10 ребят, ставших по итогам подготовки победителями и призёрами ЗЭ ВсОШ по русскому языку 2026 г.</p>
-                                <p style="margin-top: 8px;">По 9 классам в нашей копилке пятая часть от числа всех дипломов победителей и призёров ЗЭ в общем и почти половина от числа дипломов сборной Москвы, которую представляли все занимавшиеся на курсах ребята.</p>
-                            </div>
+                            <p class="section-text"><strong>Максим Андреевич Шутеев.</strong></p>
+                            <p class="section-text">Выпускник Лицея Финуниверситета.</p>
+                            <p class="section-text">В прошлом – 7-кратный победитель и призёр ЗЭ ВсОШ по русскому языку и истории.</p>
+                            <p class="section-text">Будучи в 11 классе, организовал в качестве единственного преподавателя авторские курсы по подготовке к ВсОШ по русскому языку – за ними и закрепилось название <em>Штурманская группа</em>. В группе занимались <strong>10 ребят</strong>, ставших по итогам подготовки <strong>победителями и призёрами ЗЭ ВсОШ</strong> по русскому языку 2026 г.</p>
+                            <p class="section-text">По 9 классам в нашей копилке <strong>пятая часть от числа всех дипломов победителей и призёров ЗЭ</strong> в общем и <strong>почти половина от числа дипломов сборной Москвы</strong> (которую представляли все занимавшиеся на курсах ребята). В группе занималась <strong>единственная</strong> во всей России школьница, взявшая всеросс по русскому языку 2026 г., обучаясь в <strong>7 классе</strong>, и одна из всего трёх на всю страну призёров – учащихся <strong>8 класса</strong>.</p>
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>
 
-        <div class="section-connector"></div>
-
-        <!-- ============ ЧАСТЬ 4: ИСТОРИЯ ГРУППЫ ============ -->
-        <section class="section" id="section-history">
-            <div class="section-container">
-                <div class="content-card">
-                    <h2 class="section-title">История группы</h2>
-                    <div class="video-container" title="Добавить видео">
-                        <!-- Заменить: <video src="видео.mp4" controls style="width:100%;height:100%;object-fit:cover;"></video> -->
-                        <span>📹<br>Видео<br>вертикального<br>формата</span>
-                    </div>
-                    <div class="section-text">
-                        <p>История штурманского класса началась с идеи создать пространство, где талантливые ученики смогут углублённо готовиться к олимпиадам под руководством лучших наставников. За время существования проекта через наши программы прошли десятки увлечённых ребят, многие из которых достигли выдающихся результатов на всероссийском уровне.</p>
-                        <p style="margin-top: 15px;">Каждый год мы растем и развиваемся, внедряем новые методики и расширяем горизонты возможностей для наших учеников.</p>
-                    </div>
-
-                    <!-- Карусель (ручная) -->
                     <div class="carousel-section">
-                        <h3 class="carousel-title">Наши выпускники</h3>
                         <div class="carousel-container" id="carousel">
                             <div class="carousel-track" id="carouselTrack">
-                                <div class="carousel-card"><div class="carousel-photo">🦔</div><p class="carousel-name">Имя Фамилия</p></div>
-                                <div class="carousel-card"><div class="carousel-photo">🦔</div><p class="carousel-name">Имя Фамилия</p></div>
-                                <div class="carousel-card"><div class="carousel-photo">🦔</div><p class="carousel-name">Имя Фамилия</p></div>
-                                <div class="carousel-card"><div class="carousel-photo">🦔</div><p class="carousel-name">Имя Фамилия</p></div>
-                                <div class="carousel-card"><div class="carousel-photo">🦔</div><p class="carousel-name">Имя Фамилия</p></div>
-                                <div class="carousel-card"><div class="carousel-photo">🦔</div><p class="carousel-name">Имя Фамилия</p></div>
-                                <div class="carousel-card"><div class="carousel-photo">🦔</div><p class="carousel-name">Имя Фамилия</p></div>
-                                <div class="carousel-card"><div class="carousel-photo">🦔</div><p class="carousel-name">Имя Фамилия</p></div>
-                                <div class="carousel-card"><div class="carousel-photo">🦔</div><p class="carousel-name">Имя Фамилия</p></div>
-                                <div class="carousel-card"><div class="carousel-photo">🦔</div><p class="carousel-name">Имя Фамилия</p></div>
+                                <div class="carousel-card"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='360'%3E%3Crect fill='%23dce8e4' width='300' height='360'/%3E%3Ctext x='150' y='190' text-anchor='middle' fill='%238fc0b5' font-size='52'%3E🖼️%3C/text%3E%3C/svg%3E" draggable="false" alt="Фото"></div>
+                                <div class="carousel-card"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='360'%3E%3Crect fill='%23dce8e4' width='300' height='360'/%3E%3Ctext x='150' y='190' text-anchor='middle' fill='%238fc0b5' font-size='52'%3E🖼️%3C/text%3E%3C/svg%3E" draggable="false" alt="Фото"></div>
+                                <div class="carousel-card"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='360'%3E%3Crect fill='%23dce8e4' width='300' height='360'/%3E%3Ctext x='150' y='190' text-anchor='middle' fill='%238fc0b5' font-size='52'%3E🖼️%3C/text%3E%3C/svg%3E" draggable="false" alt="Фото"></div>
+                                <div class="carousel-card"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='360'%3E%3Crect fill='%23dce8e4' width='300' height='360'/%3E%3Ctext x='150' y='190' text-anchor='middle' fill='%238fc0b5' font-size='52'%3E🖼️%3C/text%3E%3C/svg%3E" draggable="false" alt="Фото"></div>
+                                <div class="carousel-card"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='360'%3E%3Crect fill='%23dce8e4' width='300' height='360'/%3E%3Ctext x='150' y='190' text-anchor='middle' fill='%238fc0b5' font-size='52'%3E🖼️%3C/text%3E%3C/svg%3E" draggable="false" alt="Фото"></div>
+                                <div class="carousel-card"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='360'%3E%3Crect fill='%23dce8e4' width='300' height='360'/%3E%3Ctext x='150' y='190' text-anchor='middle' fill='%238fc0b5' font-size='52'%3E🖼️%3C/text%3E%3C/svg%3E" draggable="false" alt="Фото"></div>
                             </div>
                         </div>
                     </div>
@@ -1043,253 +265,124 @@
             </div>
         </section>
 
+        <!-- АКЦЕНТНЫЙ БЛОК 2 (отдельно) -->
+        <div class="accent-section">
+            <div class="accent-block">
+                В 2026/2027 учебном году <em>«группа особой подготовки»</em> будет функционировать в обновлённом формате.
+            </div>
+        </div>
+
         <div class="section-connector"></div>
 
-        <!-- ============ ЧАСТЬ 5: А ЧТО СЕЙЧАС? ============ -->
-        <section class="section section-alt" id="section-now">
+        <!-- ОСОБЕННОСТИ ОБУЧЕНИЯ -->
+        <section class="section section-alt" id="section-features">
             <div class="section-container">
                 <div class="content-card">
-                    <h2 class="section-title">А что сейчас?</h2>
-                    <div class="three-columns">
-                        <div class="sub-block">
-                            <h3 class="sub-block-title">о проекте</h3>
-                            <div class="section-text"><p>Штурманский класс — это современный образовательный проект, направленный на подготовку учащихся к Всероссийской олимпиаде школьников по русскому языку. Мы используем передовые методики и индивидуальный подход к каждому ученику.</p></div>
-                        </div>
-                        <div class="sub-block">
-                            <h3 class="sub-block-title">особенности обучения</h3>
-                            <div class="section-text"><p>Занятия проводятся в малых группах, что позволяет уделять внимание каждому. Программа включает разбор олимпиадных заданий прошлых лет, развитие лингвистического мышления и творческих способностей.</p></div>
-                        </div>
-                        <div class="sub-block">
-                            <h3 class="sub-block-title">преимущества формата</h3>
-                            <div class="section-text"><p>Гибкий график, сочетание онлайн и офлайн занятий, доступ к эксклюзивным материалам и постоянная обратная связь от преподавателей — члена ЦПМК.</p></div>
-                        </div>
+                    <h2 class="section-title">Особенности обучения</h2>
+
+                    <p class="section-text">Поступившие в 10 или 11 класс Лицея ребята получают <strong>полноценное среднее общее образование</strong>, посещая с понедельника по пятницу <strong>общеобразовательные дисциплины</strong> в утреннее и дневное время.</p>
+                    <p class="section-text"><strong>Каждую неделю</strong> организуется <strong>пробник</strong> – репетиционный заключительный этап (да, мы начинаем прицельно готовить к заклу уже с сентября!) <strong>с уникальными авторскими заданиями</strong> формата, уровня и духа финалов последних лет.</p>
+                    <p class="section-text">В вечернее время несколько раз в неделю проводятся <strong>профильные пары</strong>, минимум по две в день. На парах в семинарском формате мы подробно разбираем задания написанного пробника, пишем – прямо на паре – и разбираем другие задачи. Таким образом, ни дня проходит без опыта решения заданий.</p>
+                    <p class="section-text">Раз за разом на парах мы учимся навыкам внимательного чтения и анализа условия задачи, <em>попадать в ключи</em>, <em>понимать, чего хочет составитель</em>, доводить свои решения до совершенства.</p>
+                    <p class="section-text">Подробное обсуждение логики заданий, специфики моделей ответа и критериев оценивания, а также – что важно – ответов ребят, саморефлексия, работа над ошибками, перекрёстная проверка (ребята каждый раз учатся смотреть на работы своих товарищей глазами жюри, что помогает им самим в будущем избегать типичных и атипичных ошибок), пробные апелляции – лишь малая часть основных рабочих форматов на парах и при индивидуальной подготовке.</p>
+                    <p class="section-text">Лекций как таковых нет – по нашему мнению, они бесполезны при подготовке по русскому в подобном формате, однако «внутрь» семинаров «вшиты» полулекционные отступления по конкретным теоретическим вопросам. Особенно этот формат полезен при работе с древнерусскими текстами – в природе не существует хорошего учебника по «олимпиадному» древнерусскому, а вузовские учебники содержат много информации, не нужной для школьных олимпиад.</p>
+
+                    <div class="sub-heading">Что делает нас уникальным проектом?</div>
+
+                    <p class="section-text">В отличие от других школ, в Лицее вас никто не будет ругать за пропущенные общеобразовательные уроки, если пропуск объясняется вашей подготовкой к олимпиаде. Преподаватели всегда готовы пойти навстречу и никогда не будут «топить»: посещаемость – не главное, что влияет на оценивание.</p>
+                    <p class="section-text">Более того, Лицей – одна из немногих школ, которая может предоставить возможность посещения ровно тех предметов, которые интересны и полезны именно вам. По собственному желанию вы можете выбрать предметы для изучения на углублённом уровне, готовиться к олимпиадам по ним.</p>
+                    <p class="section-text">В отличие от профильных классов, которые существуют при сборной Москвы по русскому языку, обучение у нас <strong>полностью бесплатное для всех</strong> учащихся. Все ученики должны быть в равных условиях – это наша принципиальная позиция.</p>
+
+                    <div class="fact-cards">
+                        <div class="fact-card"><div class="fact-number">30</div><div class="fact-label">академических часов<br>в неделю</div></div>
+                        <div class="fact-card"><div class="fact-number">7/7</div><div class="fact-label">еженедельное погружение<br>в атмосферу ЗЭ ВсОШ</div></div>
+                        <div class="fact-card"><div class="fact-number">100%</div><div class="fact-label">уникальные авторские задания<br>и методика подготовки</div></div>
                     </div>
 
-                    <!-- Кнопки соцсетей -->
-                    <div class="social-buttons">
-                        <a href="https://t.me/ваша_ссылка" target="_blank" class="social-btn telegram">
-                            <span class="social-btn-icon">📱</span> Telegram
-                        </a>
-                        <a href="https://vk.com/ваша_ссылка" target="_blank" class="social-btn vkontakte">
-                            <span class="social-btn-icon">💙</span> ВКонтакте
-                        </a>
-                        <a href="https://tiktok.com/@ваша_ссылка" target="_blank" class="social-btn tiktok">
-                            <span class="social-btn-icon">🎵</span> TikTok
-                        </a>
-                    </div>
+                    <p class="section-text">На олимпиадную подготовку по русскому языку отводится порядка <strong>30 академических часов</strong> в неделю. Больше не предоставляет ни один аналогичный проект.</p>
+                    <p class="section-text">Ни один другой проект по подготовке по русскому языку не обеспечивает <strong>еженедельное</strong> и практически <strong>ежедневное погружение</strong> учащихся <strong>в атмосферу заключительного этапа</strong> ВсОШ по русскому языку. По нашему убеждению, полноценным пробником можно считать только тот, который проводится в полном соответствии с условиями реальных соревновательных туров – начиная с того, что он проводится очно, а не онлайн, и заканчивая особенностями вёрстки бланков ответа. Только в Лицее созданы для этого соответствующие условия.</p>
+                    <p class="section-text"><strong>Уникальные авторские задания.</strong></p>
+                    <p class="section-text"><strong>Уникальная методика подготовки к заданиям на перевод древнерусских текстов.</strong> Трижды в неделю (один раз в рамках пробника и дважды на парах) учащиеся работают с древнерусскими текстами, которые нельзя найти в открытом доступе в оцифрованном виде. Тексты специально «препарированы» под формат олимпиадных задач.</p>
                 </div>
             </div>
         </section>
 
         <div class="section-connector"></div>
 
-        <!-- ============ ЧАСТЬ 6: ПОСТУПЛЕНИЕ ============ -->
+        <!-- ХОЧУ ПОСТУПИТЬ! -->
         <section class="section" id="section-admission">
             <div class="section-container">
                 <div class="content-card">
-                    <h2 class="section-title">КУРС</h2>
-                    <div class="section-text">
-                        <p>Приглашаем учащихся 9–11 классов присоединиться к штурманскому классу. Обучение бесплатное, набор осуществляется на конкурсной основе. Занятия проходят в Лицее Финансового университета при Правительстве РФ.</p>
-                        <p style="margin-top: 15px;">Для участия в отборе заполните форму ниже, и мы свяжемся с вами для уточнения деталей.</p>
-                    </div>
+                    <h2 class="section-title">Хочу поступить!</h2>
 
-                    <!-- Форма обратной связи (Formspree) -->
-                    <div class="form-card">
-                        <h3 style="font-family: var(--font-heading); color: var(--deep-blue); margin-bottom: 25px; font-size: 22px;">Заявка на поступление</h3>
+                    <p class="section-text">Если в следующем учебном году Вы будете обучаться в 10 или 11 классе, а сами живёте в Москве, подавайте заявку на участие в «основном» конкурсе.</p>
+                    <p class="section-text">Если в следующем учебном году Вы будете обучаться в 10 или 11 классе, но живёте не в Москве и не сможете добираться из дома на занятия в Лицее, вы можете подать заявку на отдельный конкурс – на обучение с проживанием в кампусе (общежитии) Лицея. К сожалению, в этом году Лицей готов предоставить только одно место в общежитии.</p>
+                    <p class="section-text">Если в следующем учебном году Вы будете обучаться в 9 классе или классах младше, к сожалению, Вы не можете участвовать ни в одном из конкурсов (однако, Вы можете написать в личные сообщения преподавателю и обсудить с ним иные возможные форматы работы).</p>
+
+                    <p class="section-text" style="margin-top:20px;"><strong>Для поступления в Штурманскую группу необходимо:</strong></p>
+
+                    <div class="step-block"><div class="step-heading">1 шаг</div><div class="step-title">Подача заявки</div><p class="section-text">Заполните регистрационную форму – заявку на поступление.</p><span class="note-small"><em><strong>Срок прохождения формы – не позднее 10 августа 2026 г.</strong></em></span></div>
+                    <div class="step-block"><div class="step-heading">2 шаг</div><div class="step-title">Получение подтверждения от нас</div><p class="section-text">Получите на указанный в форме адрес электронной почты письмо, подтверждающее приём вашей заявки и содержащее дальнейшие инструкции.</p><span class="note-small"><em><strong>Срок получения подтверждения – не позднее недели с момента подачи заявки.</strong></em></span></div>
+                    <div class="step-block"><div class="step-heading">3 шаг</div><div class="step-title">Подготовка к вступительным испытаниям</div><p class="section-text">Примите участие в бесплатном онлайн-интенсиве по подготовке к вступительным испытаниям, приглашение на который вы получите в письме после прохождения регистрации.</p><p class="section-text">Онлайн-интенсив – уникальная возможность «из первых уст» и до мельчайших тонкостей узнать, как проходит учёба в Штурманской группе, получив ответы на все интересовавшие вопросы и окончательно решить для себя, хотите ли Вы здесь учиться.</p><span class="note-small"><em><strong>Дата начала интенсива – не ранее 1 августа 2026 г.</strong></em></span><span class="note-small"><em><strong>(точная информация будет определена Приёмной комиссией позднее)</strong></em></span></div>
+                    <div class="step-block"><div class="step-heading">4 шаг</div><div class="step-title">Прохождение вступительных испытаний</div><p class="section-text">Пройдите индивидуальный отбор (вступительные испытания), подробную информацию о котором вы получите на бесплатном онлайн-интенсиве.</p><span class="note-small"><em><strong>Дата прохождения вступительных испытаний – не ранее 10 августа 2026 г.</strong></em></span><span class="note-small"><em><strong>(точная информация будет определена Приёмной комиссией позднее)</strong></em></span><span class="note-small"><em><strong>Для «основного» конкурса (на обучение без проживания в кампусе) планируется проведение очно по адресу г. Москва, Ленинградский проспект, д. 51, стр. 4, для конкурса на обучение с проживанием в кампусе – дистанционно с системой прокторинга.</strong></em></span></div>
+                    <div class="step-block"><div class="step-heading">5 шаг</div><div class="step-title">Получение результатов вступительных испытаний</div><p class="section-text">Ознакомьтесь с результатами, информацию о получении которых вы узнаете в ходе индивидуального отбора.</p><span class="note-small"><em><strong>Дата получения результатов – не ранее 20 августа 2026 г.</strong></em></span><span class="note-small"><em><strong>(точная информация будет определена Приёмной комиссией позднее)</strong></em></span></div>
+                    <div class="step-block"><div class="step-heading">6 шаг</div><div class="step-title">Сбор документов и зачисление</div><p class="section-text">В случае успешного прохождения отбора вы получите рекомендацию к зачислению и дальнейшие инструкции. Следуя инструкциям, передавайте в Лицей документы. Мы сразу вас зачислим – по отдельному распоряжению.</p><span class="note-small"><em><strong>Срок подачи документов и зачисления – не позднее 30 августа 2026 г.</strong></em></span></div>
+                    <div class="step-block"><div class="step-heading">7 шаг</div><div class="step-title">Начало обучения</div><p class="section-text">Добро пожаловать в Штурманскую группу и Лицей!</p></div>
+
+                    <div class="form-card" id="form-card">
+                        <h3 style="font-family:var(--font-heading);color:var(--deep-emerald);margin-bottom:5px;font-size:22px;text-align:center;letter-spacing:3px;font-weight:300;">Заявка на поступление</h3>
+                        <p style="text-align:center;font-size:14px;color:var(--text-medium);margin-bottom:30px;"><strong><em>Заявки принимаются до 1 августа 2026 г.</em></strong></p>
                         <form id="applicationForm" action="https://formspree.io/f/mykvpwan" method="POST">
-                            <div class="form-group">
-                                <label class="form-label" for="fio">ФИО</label>
-                                <input type="text" id="fio" name="fio" class="form-input" placeholder="Иванов Иван Иванович" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label" for="email">Email</label>
-                                <input type="email" id="email" name="email" class="form-input" placeholder="example@mail.ru" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label" for="phone">Телефон</label>
-                                <input type="tel" id="phone" name="phone" class="form-input" placeholder="+7 (___) ___-__-__" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label" for="grade">Класс поступления</label>
-                                <select id="grade" name="grade" class="form-input" required>
-                                    <option value="">Выберите класс</option>
-                                    <option value="9">9 класс</option>
-                                    <option value="10">10 класс</option>
-                                    <option value="11">11 класс</option>
-                                </select>
-                            </div>
+                            <div class="form-group"><label class="form-label" for="fio">Ваши ФИО</label><input type="text" id="fio" name="fio" class="form-input" required></div>
+                            <div class="form-group"><label class="form-label" for="email">Ваша электронная почта</label><input type="email" id="email" name="email" class="form-input" required></div>
+                            <div class="form-group"><label class="form-label" for="phone">Ваш сотовый телефон</label><input type="tel" id="phone" name="phone" class="form-input" required></div>
+                            <div class="form-group"><label class="form-label" for="region">Регион Вашего проживания</label><input type="text" id="region" name="region" class="form-input" required></div>
+                            <div class="form-group"><label class="form-label" for="school">Полное наименование Вашего текущего учебного заведения</label><input type="text" id="school" name="school" class="form-input" required></div>
+                            <div class="form-group"><label class="form-label" for="grade">Ваш класс обучения в 2026/2027 уч. г.</label><select id="grade" name="grade" class="form-input" required><option value="">Выберите класс</option><option value="10">10 класс</option><option value="11">11 класс</option></select></div>
+                            <div class="form-group"><label class="form-label" for="olymp">Участвовали ли Вы во всероссийской олимпиаде школьников или в «перечневых» олимпиадах в прошлые годы? Если да, укажите Ваш статус, название этапа олимпиады, название учебного предмета и год участия.</label><textarea id="olymp" name="olymp" class="form-input" rows="3" placeholder="Например, призёр ЗЭ ВсОШ по русскому языку 2026 г."></textarea></div>
+                            <div class="form-group"><label class="form-label" for="contest">В каком из двух конкурсов Вы будете участвовать?</label><select id="contest" name="contest" class="form-input" required><option value="">Выберите конкурс</option><option value="main">На обучение без проживания в кампусе</option><option value="campus">На обучение с проживанием в кампусе</option></select></div>
+                            <div class="form-group"><label class="form-label" for="parent_fio">ФИО одного из Ваших родителей (законных представителей)</label><input type="text" id="parent_fio" name="parent_fio" class="form-input" required></div>
+                            <div class="form-group"><label class="form-label" for="parent_email">Электронная почта одного из Ваших родителей (законных представителей)</label><input type="email" id="parent_email" name="parent_email" class="form-input" required></div>
+                            <div class="form-group"><label class="form-label" for="parent_phone">Сотовый телефон одного из Ваших родителей (законных представителей)</label><input type="tel" id="parent_phone" name="parent_phone" class="form-input" required></div>
+                            <div class="form-group"><label class="form-label" for="confirm1">Понимаете ли Вы и Ваш родитель (законный представитель), что в случае успешного прохождения отбора для поступления в Штурманскую группу необходимо перевестись в Лицей Финуниверситета?</label><select id="confirm1" name="confirm1" class="form-input" required><option value="">Выберите</option><option value="yes">Да</option></select></div>
+                            <div class="form-group"><label class="form-label" for="confirm2">Согласны ли Вы и Ваш родитель (законный представитель) на обработку вышеуказанных персональных данных?</label><select id="confirm2" name="confirm2" class="form-input" required><option value="">Выберите</option><option value="yes">Да</option></select></div>
                             <button type="submit" class="form-submit" id="submitBtn">Отправить заявку</button>
                             <div class="form-status" id="formStatus"></div>
                         </form>
                     </div>
+
+                    <p class="after-form-text">По любым интересующим вопросам вы можете обращаться к нам на почту или напрямую преподавателю в личные сообщения ВКонтакте. В случае необходимости мы можем и созвониться. Мы всегда готовы к диалогу!</p>
+                    <p class="after-form-text">Следите за новостями в наших соцсетях:</p>
+
+                    <div class="social-buttons">
+                        <a href="https://t.me/ваша_ссылка" target="_blank" class="social-btn">мы в Telegram</a>
+                        <a href="https://vk.com/ваша_ссылка" target="_blank" class="social-btn">мы ВКонтакте</a>
+                    </div>
                 </div>
             </div>
         </section>
-
     </main>
 
-    <!-- Футер -->
-    <footer class="site-footer">
-        <p>© 2026 Лицей Финансового университета при Правительстве РФ. Штурманский класс.</p>
-    </footer>
+    <footer class="site-footer"><p>© 2026 Лицей Финансового университета при Правительстве РФ. Штурманская группа.</p></footer>
 
     <script>
-        // ============ НАВИГАЦИЯ ============
-        function openNav() {
-            document.getElementById('navDropdown').classList.add('active');
-            document.getElementById('navOverlay').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeNav() {
-            document.getElementById('navDropdown').classList.remove('active');
-            document.getElementById('navOverlay').classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closeNav();
-        });
-
-        document.querySelectorAll('.nav-dropdown a').forEach(function(link) {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                var targetId = this.getAttribute('href');
-                var target = document.querySelector(targetId);
-                if (target) {
-                    closeNav();
-                    setTimeout(function() {
-                        target.scrollIntoView({ behavior: 'smooth' });
-                    }, 300);
-                }
-            });
-        });
-
-        // ============ КАРУСЕЛЬ (ручное перетаскивание) ============
-        var track = document.getElementById('carouselTrack');
-        var cards = track.querySelectorAll('.carousel-card');
-        var cardWidth = 220;
-        var currentPosition = 0;
-        var isDragging = false;
-        var startX, startPosition;
-
-        function setupInfiniteCarousel() {
-            var originalHTML = '';
-            cards.forEach(function(card) {
-                originalHTML += card.outerHTML;
-            });
-
-            track.innerHTML = originalHTML + originalHTML + originalHTML;
-            currentPosition = cards.length * cardWidth;
-            track.style.transition = 'none';
-            track.style.transform = 'translateX(-' + currentPosition + 'px)';
-        }
-
-        track.addEventListener('mousedown', function(e) {
-            isDragging = true;
-            startX = e.pageX;
-            startPosition = currentPosition;
-            track.style.transition = 'none';
-            track.style.cursor = 'grabbing';
-        });
-
-        window.addEventListener('mouseup', function() {
-            if (isDragging) {
-                isDragging = false;
-                track.style.cursor = 'grab';
-                track.style.transition = 'transform 0.5s ease';
-            }
-        });
-
-        window.addEventListener('mousemove', function(e) {
-            if (!isDragging) return;
-            e.preventDefault();
-            var dx = e.pageX - startX;
-            currentPosition = startPosition - dx;
-
-            var minPos = 0;
-            var maxPos = cards.length * cardWidth * 3 - track.parentElement.clientWidth;
-            if (currentPosition < minPos) currentPosition = minPos;
-            if (currentPosition > maxPos) currentPosition = maxPos;
-
-            track.style.transform = 'translateX(-' + currentPosition + 'px)';
-        });
-
-        track.addEventListener('touchstart', function(e) {
-            isDragging = true;
-            startX = e.touches[0].pageX;
-            startPosition = currentPosition;
-            track.style.transition = 'none';
-        });
-
-        window.addEventListener('touchend', function() {
-            if (isDragging) {
-                isDragging = false;
-                track.style.transition = 'transform 0.5s ease';
-            }
-        });
-
-        window.addEventListener('touchmove', function(e) {
-            if (!isDragging) return;
-            var dx = e.touches[0].pageX - startX;
-            currentPosition = startPosition - dx;
-
-            var minPos = 0;
-            var maxPos = cards.length * cardWidth * 3 - track.parentElement.clientWidth;
-            if (currentPosition < minPos) currentPosition = minPos;
-            if (currentPosition > maxPos) currentPosition = maxPos;
-
-            track.style.transform = 'translateX(-' + currentPosition + 'px)';
-        });
-
-        setupInfiniteCarousel();
-
-        // ============ ОТПРАВКА ФОРМЫ ЧЕРЕЗ FORMSPREE ============
-        var form = document.getElementById('applicationForm');
-        var statusDiv = document.getElementById('formStatus');
-        var submitBtn = document.getElementById('submitBtn');
-
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            statusDiv.className = 'form-status loading';
-            statusDiv.textContent = '⏳ Отправляем заявку...';
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Отправка...';
-
-            var formData = new FormData(form);
-
-            fetch(form.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            })
-            .then(function(response) {
-                if (response.ok) {
-                    statusDiv.className = 'form-status success';
-                    statusDiv.textContent = '✅ Спасибо! Ваша заявка принята. Мы свяжемся с вами в ближайшее время.';
-                    form.reset();
-                } else {
-                    statusDiv.className = 'form-status error';
-                    statusDiv.textContent = '❌ Ошибка отправки. Пожалуйста, попробуйте позже или свяжитесь с нами по телефону.';
-                }
-            })
-            .catch(function() {
-                statusDiv.className = 'form-status error';
-                statusDiv.textContent = '❌ Ошибка соединения. Проверьте подключение к интернету.';
-            })
-            .finally(function() {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Отправить заявку';
-                setTimeout(function() {
-                    statusDiv.className = 'form-status';
-                    statusDiv.textContent = '';
-                }, 8000);
-            });
-        });
+        function openNav(){document.getElementById('navDropdown').classList.add('active');document.getElementById('navOverlay').classList.add('active');document.body.style.overflow='hidden'}
+        function closeNav(){document.getElementById('navDropdown').classList.remove('active');document.getElementById('navOverlay').classList.remove('active');document.body.style.overflow=''}
+        document.addEventListener('keydown',function(e){if(e.key==='Escape')closeNav()})
+        document.querySelectorAll('.nav-dropdown a').forEach(function(l){l.addEventListener('click',function(e){e.preventDefault();var t=document.querySelector(this.getAttribute('href'));if(t){closeNav();setTimeout(function(){t.scrollIntoView({behavior:'smooth'})},300)}})})
+        var track=document.getElementById('carouselTrack'),cards=track.querySelectorAll('.carousel-card'),cardWidth=320,currentPosition=0,isDragging=false,startX,startPosition
+        function setupInfiniteCarousel(){var h='';cards.forEach(function(c){h+=c.outerHTML});track.innerHTML=h+h+h;currentPosition=cards.length*cardWidth;track.style.transition='none';track.style.transform='translateX(-'+currentPosition+'px)'}
+        track.addEventListener('mousedown',function(e){isDragging=true;startX=e.pageX;startPosition=currentPosition;track.style.transition='none';track.style.cursor='grabbing'})
+        window.addEventListener('mouseup',function(){if(isDragging){isDragging=false;track.style.cursor='grab';track.style.transition='transform 0.5s ease'}})
+        window.addEventListener('mousemove',function(e){if(!isDragging)return;e.preventDefault();var dx=e.pageX-startX;currentPosition=Math.max(0,Math.min(startPosition-dx,cards.length*cardWidth*3-track.parentElement.clientWidth));track.style.transform='translateX(-'+currentPosition+'px)'})
+        track.addEventListener('wheel',function(e){e.preventDefault();currentPosition+=e.deltaY;currentPosition=Math.max(0,Math.min(currentPosition,cards.length*cardWidth*3-track.parentElement.clientWidth));track.style.transform='translateX(-'+currentPosition+'px)'})
+        track.addEventListener('touchstart',function(e){isDragging=true;startX=e.touches[0].pageX;startPosition=currentPosition;track.style.transition='none'})
+        window.addEventListener('touchend',function(){if(isDragging){isDragging=false;track.style.transition='transform 0.5s ease'}})
+        window.addEventListener('touchmove',function(e){if(!isDragging)return;var dx=e.touches[0].pageX-startX;currentPosition=Math.max(0,Math.min(startPosition-dx,cards.length*cardWidth*3-track.parentElement.clientWidth));track.style.transform='translateX(-'+currentPosition+'px)'})
+        setupInfiniteCarousel()
+        var form=document.getElementById('applicationForm'),statusDiv=document.getElementById('formStatus'),submitBtn=document.getElementById('submitBtn')
+        form.addEventListener('submit',function(e){e.preventDefault();statusDiv.className='form-status loading';statusDiv.textContent='⏳ Отправляем заявку...';submitBtn.disabled=true;submitBtn.textContent='Отправка...'
+        fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}}).then(function(r){if(r.ok){statusDiv.className='form-status success';statusDiv.textContent='✅ Спасибо! Ваша заявка принята.';form.reset()}else{statusDiv.className='form-status error';statusDiv.textContent='❌ Ошибка отправки.'}}).catch(function(){statusDiv.className='form-status error';statusDiv.textContent='❌ Ошибка соединения.'}).finally(function(){submitBtn.disabled=false;submitBtn.textContent='Отправить заявку';setTimeout(function(){statusDiv.className='form-status';statusDiv.textContent=''},8000)})})
     </script>
-
 </body>
 </html>
